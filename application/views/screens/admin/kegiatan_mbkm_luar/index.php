@@ -1,0 +1,71 @@
+<div class="container-fluid">
+  <div class="page-title">
+    <div class="row">
+      <div class="col-6">
+        <h3>Riwayat Kegiatan Mahasiswa</h3>
+      </div>
+      <div class="col-6">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="<?= base_url('home'); ?>"><i data-feather="home"></i></a></li>
+          <li class="breadcrumb-item active">Riwayat Kegiatan Mahasiswa</li>
+        </ol>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Container-fluid starts-->
+<div class="container-fluid">
+  <div class="col-sm-12">
+    <div class="card">
+      <div class="card-header">
+        <h5>Riwayat Kegiatan Mahasiswa</h5>
+      </div>
+      <div class="card-body">
+        <div class="table-responsive">
+          <table class="display" id="basic-1">
+            <thead>
+              <tr>
+                <th>Nama Mahasiswa</th>
+                <th>Jenis Riwayat</th>
+                <th>Riwayat</th>
+                <th>Lokasi</th>
+                <th>Status Kerja</th>
+                <th>Tanggal Mulai</th>
+                <th>Tanggal Selesai</th>
+                <th>Program MBKM</th>
+                <th>Uraian</th>
+              </tr>
+            </thead>
+            <tbody>
+              <?php
+                $CI =& get_instance();
+                foreach ($kegiatan_mbkm_luar as $show) {
+                  if($show->tanggal_selesai == NULL || $show->tanggal_selesai == "" || $show->tanggal_selesai == '0000-00-00') {
+                    $tgl_selesai = "Sampai Sekarang";
+                  } else {
+                    $tgl_selesai = $CI->tgl_indo($show->tanggal_selesai);
+                  }
+                  echo "
+                    <tr>
+                      <td>".$show->nama."</td>
+                      <td>".$show->tipe."</td>
+                      <td>".$show->riwayat."</td>
+                      <td>".$show->lokasi."</td>
+                      <td>".$show->status_kerja."</td>
+                      <td>".$CI->tgl_indo($show->tanggal_mulai)."</td>
+                      <td>".$tgl_selesai."</td>
+                      <td>".$show->nama_program."</td>
+                      <td>".$show->uraian."</td>
+                    </tr>
+                  ";
+                }
+              ?>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Container-fluid Ends-->
+</div>
