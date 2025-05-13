@@ -1,6 +1,10 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
-
+// Load .env file
+if (file_exists(APPPATH . '../.env')) {
+	$dotenv = Dotenv\Dotenv::createImmutable(APPPATH . '../');
+	$dotenv->load();
+}
 /*
 | -------------------------------------------------------------------
 | DATABASE CONNECTIVITY SETTINGS
@@ -75,11 +79,11 @@ $query_builder = TRUE;
 
 $db['default'] = array(
 	'dsn'	=> '',
-	'hostname' => 'localhost',
-	'username' => 'root',
-	'password' => '',
-	'database' => 'mbkm',
-	'dbdriver' => 'mysqli',
+	'hostname' => $_ENV['DB_HOSTNAME'] ?: 'localhost',
+	'username' => $_ENV['DB_USERNAME'] ?: 'root',
+	'password' => $_ENV['DB_PASSWORD'] ?: '',
+	'database' => $_ENV['DB_DATABASE'] ?: 'mbkm',
+	'dbdriver' => $_ENV['DB_DRIVER'] ?: 'mysql',
 	'dbprefix' => '',
 	'pconnect' => FALSE,
 	'db_debug' => (ENVIRONMENT !== 'production'),
