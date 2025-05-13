@@ -51,9 +51,44 @@ if (!is_dir($dir)) {
 if (!file_exists($private_key_path) || !file_exists($public_key_path)) {
     if (@file_put_contents($private_key_path, base64_encode($secretKey)) === false) {
         log_message('error', 'Failed to write private key to: ' . $private_key_path);
+    } else {
+        // Update .env file with PRIVATE_KEY without moving lines
+        $env_content = file($dotenv_path, FILE_IGNORE_NEW_LINES);
+        $updated = false;
+        foreach ($env_content as &$line) {
+            if (strpos($line, 'PRIVATE_KEY=') === 0) {
+                $line = 'PRIVATE_KEY=' . base64_encode($secretKey);
+                $updated = true;
+                break;
+            }
+        }
+        if (!$updated) {
+            $env_content[] = 'PRIVATE_KEY=' . base64_encode($secretKey);
+        }
+        if (@file_put_contents($dotenv_path, implode(PHP_EOL, $env_content) . PHP_EOL) === false) {
+            log_message('error', 'Failed to update .env file with PRIVATE_KEY.');
+        }
     }
+
     if (@file_put_contents($public_key_path, base64_encode($publicKey)) === false) {
         log_message('error', 'Failed to write public key to: ' . $public_key_path);
+    } else {
+        // Update .env file with PUBLIC_KEY without moving lines
+        $env_content = file($dotenv_path, FILE_IGNORE_NEW_LINES);
+        $updated = false;
+        foreach ($env_content as &$line) {
+            if (strpos($line, 'PUBLIC_KEY=') === 0) {
+                $line = 'PUBLIC_KEY=' . base64_encode($publicKey);
+                $updated = true;
+                break;
+            }
+        }
+        if (!$updated) {
+            $env_content[] = 'PUBLIC_KEY=' . base64_encode($publicKey);
+        }
+        if (@file_put_contents($dotenv_path, implode(PHP_EOL, $env_content) . PHP_EOL) === false) {
+            log_message('error', 'Failed to update .env file with PUBLIC_KEY.');
+        }
     }
 }else {
     echo "File already exists: " . $private_key_path . PHP_EOL;
