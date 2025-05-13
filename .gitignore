@@ -34,3 +34,5 @@ bower_components/
 
 # User configuration
 .user.ini
+
+.keys

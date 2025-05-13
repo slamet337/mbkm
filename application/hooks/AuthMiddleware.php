@@ -57,7 +57,9 @@ class AuthMiddleware
 
         try {
             // Ambil public key kamu
-            $publicKey = file_get_contents(APPPATH . 'config/key/public_key.pem');
+            // $publicKey = file_get_contents(APPPATH . 'config/key/public_key.pem');
+            $publicKeyPath = APPPATH . $_ENV['JWT_PUBLIC_KEY_PATH'];
+            $publicKey = file_get_contents($publicKeyPath);
 
             // Decode token
             $decoded = JWT::decode($token, new Key($publicKey, 'EdDSA'));
