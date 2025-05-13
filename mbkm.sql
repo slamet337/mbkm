@@ -2,10 +2,10 @@
 -- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
--- Host: 127.0.0.1
--- Generation Time: May 03, 2025 at 12:52 AM
--- Server version: 10.4.32-MariaDB
--- PHP Version: 8.0.30
+-- Host: localhost
+-- Waktu pembuatan: 13 Bulan Mei 2025 pada 12.26
+-- Versi server: 8.0.36
+-- Versi PHP: 8.3.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -24,12 +24,31 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Table structure for table `dosen`
+-- Struktur dari tabel `api_logs`
+--
+
+CREATE TABLE `api_logs` (
+  `id` int NOT NULL,
+  `uri` varchar(255) NOT NULL,
+  `method` varchar(6) NOT NULL,
+  `params` text,
+  `api_key` varchar(40) NOT NULL,
+  `ip_address` varchar(45) NOT NULL,
+  `time` int NOT NULL,
+  `rtime` float DEFAULT NULL,
+  `authorized` varchar(1) NOT NULL,
+  `response_code` smallint DEFAULT '0'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+
+-- --------------------------------------------------------
+
+--
+-- Struktur dari tabel `dosen`
 --
 
 CREATE TABLE `dosen` (
-  `id` int(11) NOT NULL,
-  `id_user` int(11) NOT NULL,
+  `id` int NOT NULL,
+  `id_user` int NOT NULL,
   `nama` varchar(255) NOT NULL,
   `phone_number` varchar(15) NOT NULL,
   `email` varchar(150) NOT NULL,
@@ -45,10 +64,10 @@ CREATE TABLE `dosen` (
   `kd_jur` varchar(20) NOT NULL,
   `kd_prodi` varchar(50) NOT NULL,
   `pangkat_gol` varchar(100) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data for table `dosen`
+-- Dumping data untuk tabel `dosen`
 --
 
 INSERT INTO `dosen` (`id`, `id_user`, `nama`, `phone_number`, `email`, `alamat`, `tempat_lahir`, `tanggal_lahir`, `jenis_kelamin`, `agama`, `status_pernikahan`, `jabatan_fungsional`, `nip`, `kd_fak`, `kd_jur`, `kd_prodi`, `pangkat_gol`) VALUES
@@ -223,17 +242,17 @@ INSERT INTO `dosen` (`id`, `id_user`, `nama`, `phone_number`, `email`, `alamat`,
 -- --------------------------------------------------------
 
 --
--- Table structure for table `fakultas`
+-- Struktur dari tabel `fakultas`
 --
 
 CREATE TABLE `fakultas` (
   `kd_fak` varchar(25) NOT NULL,
   `nama_fakultas` varchar(150) NOT NULL,
   `singkatan` varchar(50) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data for table `fakultas`
+-- Dumping data untuk tabel `fakultas`
 --
 
 INSERT INTO `fakultas` (`kd_fak`, `nama_fakultas`, `singkatan`) VALUES
@@ -242,39 +261,39 @@ INSERT INTO `fakultas` (`kd_fak`, `nama_fakultas`, `singkatan`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `jadwal_kuliah_inbound`
+-- Struktur dari tabel `jadwal_kuliah_inbound`
 --
 
 CREATE TABLE `jadwal_kuliah_inbound` (
-  `id` int(11) NOT NULL,
+  `id` int NOT NULL,
   `kd_mk` varchar(50) NOT NULL,
   `status` enum('daring','luring') NOT NULL,
   `waktu_mulai` date NOT NULL,
   `waktu_selesai` date NOT NULL,
   `kd_prodi` varchar(25) NOT NULL,
   `description` text NOT NULL,
-  `kuota` int(11) NOT NULL,
-  `sisa_kuota` int(11) NOT NULL,
+  `kuota` int NOT NULL,
+  `sisa_kuota` int NOT NULL,
   `kelas` varchar(25) NOT NULL,
   `hari` varchar(25) NOT NULL,
   `jam_mulai` time NOT NULL,
   `jam_selesai` time NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `jurusan`
+-- Struktur dari tabel `jurusan`
 --
 
 CREATE TABLE `jurusan` (
   `kd_jur` varchar(30) NOT NULL,
   `kd_fak` varchar(30) NOT NULL,
   `nama_jurusan` varchar(255) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data for table `jurusan`
+-- Dumping data untuk tabel `jurusan`
 --
 
 INSERT INTO `jurusan` (`kd_jur`, `kd_fak`, `nama_jurusan`) VALUES
@@ -285,25 +304,25 @@ INSERT INTO `jurusan` (`kd_jur`, `kd_fak`, `nama_jurusan`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `kegiatan_mbkm_lain`
+-- Struktur dari tabel `kegiatan_mbkm_lain`
 --
 
 CREATE TABLE `kegiatan_mbkm_lain` (
-  `id` int(11) NOT NULL,
-  `id_mhsw` int(11) NOT NULL,
+  `id` int NOT NULL,
+  `id_mhsw` int NOT NULL,
   `jenis_mbkm` varchar(150) NOT NULL,
-  `id_program_mbkm` int(11) NOT NULL,
+  `id_program_mbkm` int NOT NULL,
   `nama_kegiatan` varchar(255) NOT NULL,
-  `id_dosen` int(11) NOT NULL,
+  `id_dosen` int NOT NULL,
   `dosen_lainnya` varchar(200) NOT NULL COMMENT 'Masukkan nama dosen jika bukan dosen kampus',
   `semester` varchar(10) NOT NULL,
   `lokasi_kegiatan` text NOT NULL,
   `penyelenggara_mbkm` varchar(150) NOT NULL,
   `nama_mentor` varchar(200) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data for table `kegiatan_mbkm_lain`
+-- Dumping data untuk tabel `kegiatan_mbkm_lain`
 --
 
 INSERT INTO `kegiatan_mbkm_lain` (`id`, `id_mhsw`, `jenis_mbkm`, `id_program_mbkm`, `nama_kegiatan`, `id_dosen`, `dosen_lainnya`, `semester`, `lokasi_kegiatan`, `penyelenggara_mbkm`, `nama_mentor`) VALUES
@@ -318,17 +337,17 @@ INSERT INTO `kegiatan_mbkm_lain` (`id`, `id_mhsw`, `jenis_mbkm`, `id_program_mbk
 -- --------------------------------------------------------
 
 --
--- Table structure for table `konversi_matakuliah`
+-- Struktur dari tabel `konversi_matakuliah`
 --
 
 CREATE TABLE `konversi_matakuliah` (
-  `id` int(11) NOT NULL,
-  `id_pendaftaran` int(11) NOT NULL,
+  `id` int NOT NULL,
+  `id_pendaftaran` int NOT NULL,
   `kd_mk` varchar(50) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data for table `konversi_matakuliah`
+-- Dumping data untuk tabel `konversi_matakuliah`
 --
 
 INSERT INTO `konversi_matakuliah` (`id`, `id_pendaftaran`, `kd_mk`) VALUES
@@ -2968,33 +2987,33 @@ INSERT INTO `konversi_matakuliah` (`id`, `id_pendaftaran`, `kd_mk`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `konversi_mk_pertukaran`
+-- Struktur dari tabel `konversi_mk_pertukaran`
 --
 
 CREATE TABLE `konversi_mk_pertukaran` (
-  `id` int(11) NOT NULL,
-  `id_pendaftaran` int(11) NOT NULL,
+  `id` int NOT NULL,
+  `id_pendaftaran` int NOT NULL,
   `kd_prodi` varchar(15) NOT NULL,
   `kd_mk_pertukaran` varchar(50) NOT NULL,
   `kd_mk` varchar(50) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `level`
+-- Struktur dari tabel `level`
 --
 
 CREATE TABLE `level` (
-  `id` int(11) NOT NULL,
+  `id` int NOT NULL,
   `level` varchar(100) NOT NULL,
   `created_at` datetime NOT NULL,
   `updated_at` datetime NOT NULL,
   `deleted_at` datetime DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data for table `level`
+-- Dumping data untuk tabel `level`
 --
 
 INSERT INTO `level` (`id`, `level`, `created_at`, `updated_at`, `deleted_at`) VALUES
@@ -3006,22 +3025,22 @@ INSERT INTO `level` (`id`, `level`, `created_at`, `updated_at`, `deleted_at`) VA
 -- --------------------------------------------------------
 
 --
--- Table structure for table `logbook`
+-- Struktur dari tabel `logbook`
 --
 
 CREATE TABLE `logbook` (
-  `id` int(11) NOT NULL,
+  `id` int NOT NULL,
   `kegiatan_dilakukan` text NOT NULL,
   `lokasi` text NOT NULL,
   `tanggal` date NOT NULL,
   `foto_kegiatan` varchar(255) DEFAULT NULL,
   `file_laporan` varchar(255) DEFAULT NULL,
-  `id_pendaftaran` int(11) NOT NULL,
-  `id_mhsw` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+  `id_pendaftaran` int NOT NULL,
+  `id_mhsw` int NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data for table `logbook`
+-- Dumping data untuk tabel `logbook`
 --
 
 INSERT INTO `logbook` (`id`, `kegiatan_dilakukan`, `lokasi`, `tanggal`, `foto_kegiatan`, `file_laporan`, `id_pendaftaran`, `id_mhsw`) VALUES
@@ -3956,29 +3975,29 @@ INSERT INTO `logbook` (`id`, `kegiatan_dilakukan`, `lokasi`, `tanggal`, `foto_ke
 -- --------------------------------------------------------
 
 --
--- Table structure for table `logbook_inbound`
+-- Struktur dari tabel `logbook_inbound`
 --
 
 CREATE TABLE `logbook_inbound` (
-  `id` int(11) NOT NULL,
+  `id` int NOT NULL,
   `kegiatan_dilakukan` text NOT NULL,
   `lokasi` text NOT NULL,
   `tanggal` date NOT NULL,
   `foto_kegiatan` varchar(255) DEFAULT NULL,
   `file_laporan` varchar(255) DEFAULT NULL,
-  `id_mhsw` int(11) NOT NULL,
+  `id_mhsw` int NOT NULL,
   `semester` varchar(6) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `mahasiswa`
+-- Struktur dari tabel `mahasiswa`
 --
 
 CREATE TABLE `mahasiswa` (
-  `id` int(11) NOT NULL,
-  `id_user` int(11) NOT NULL,
+  `id` int NOT NULL,
+  `id_user` int NOT NULL,
   `email` varchar(255) NOT NULL,
   `nama` varchar(255) NOT NULL,
   `alamat` text NOT NULL,
@@ -3993,12 +4012,12 @@ CREATE TABLE `mahasiswa` (
   `kd_fak` varchar(20) NOT NULL,
   `kd_jur` varchar(20) NOT NULL,
   `kd_prodi` varchar(20) NOT NULL,
-  `angkatan` year(4) NOT NULL,
+  `angkatan` year NOT NULL,
   `status_pernikahan` enum('Belum Menikah','Sudah Menikah','Cerai') NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data for table `mahasiswa`
+-- Dumping data untuk tabel `mahasiswa`
 --
 
 INSERT INTO `mahasiswa` (`id`, `id_user`, `email`, `nama`, `alamat`, `nik`, `nim`, `no_hp`, `tempat_lahir`, `tanggal_lahir`, `jenis_kelamin`, `agama`, `gol_darah`, `kd_fak`, `kd_jur`, `kd_prodi`, `angkatan`, `status_pernikahan`) VALUES
@@ -4605,12 +4624,12 @@ INSERT INTO `mahasiswa` (`id`, `id_user`, `email`, `nama`, `alamat`, `nik`, `nim
 -- --------------------------------------------------------
 
 --
--- Table structure for table `mahasiswa_inbound`
+-- Struktur dari tabel `mahasiswa_inbound`
 --
 
 CREATE TABLE `mahasiswa_inbound` (
-  `id` int(11) NOT NULL,
-  `id_user` int(11) NOT NULL,
+  `id` int NOT NULL,
+  `id_user` int NOT NULL,
   `email` varchar(255) NOT NULL,
   `nama` varchar(255) NOT NULL,
   `alamat` text NOT NULL,
@@ -4627,24 +4646,24 @@ CREATE TABLE `mahasiswa_inbound` (
   `kd_fak` varchar(20) NOT NULL,
   `kd_jur` varchar(20) NOT NULL,
   `kd_prodi` varchar(20) NOT NULL,
-  `angkatan` year(4) NOT NULL,
+  `angkatan` year NOT NULL,
   `status_pernikahan` enum('Belum Menikah','Sudah Menikah','Cerai') NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `matakuliah`
+-- Struktur dari tabel `matakuliah`
 --
 
 CREATE TABLE `matakuliah` (
   `kd_mk` varchar(50) NOT NULL,
   `matakuliah` varchar(150) NOT NULL,
-  `sks` int(5) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+  `sks` int NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data for table `matakuliah`
+-- Dumping data untuk tabel `matakuliah`
 --
 
 INSERT INTO `matakuliah` (`kd_mk`, `matakuliah`, `sks`) VALUES
@@ -4912,24 +4931,24 @@ INSERT INTO `matakuliah` (`kd_mk`, `matakuliah`, `sks`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `matakuliah_pertukaran`
+-- Struktur dari tabel `matakuliah_pertukaran`
 --
 
 CREATE TABLE `matakuliah_pertukaran` (
-  `id` int(11) NOT NULL,
-  `id_program_kegiatan` int(11) NOT NULL,
-  `id_mitra` int(11) NOT NULL,
+  `id` int NOT NULL,
+  `id_program_kegiatan` int NOT NULL,
+  `id_mitra` int NOT NULL,
   `kd_mk` varchar(50) NOT NULL,
   `matakuliah` varchar(100) NOT NULL,
-  `sks` int(2) NOT NULL,
-  `id_mentor` int(11) NOT NULL,
-  `kuota` int(11) NOT NULL,
-  `sisa_kuota` int(11) NOT NULL,
+  `sks` int NOT NULL,
+  `id_mentor` int NOT NULL,
+  `kuota` int NOT NULL,
+  `sisa_kuota` int NOT NULL,
   `description` text NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data for table `matakuliah_pertukaran`
+-- Dumping data untuk tabel `matakuliah_pertukaran`
 --
 
 INSERT INTO `matakuliah_pertukaran` (`id`, `id_program_kegiatan`, `id_mitra`, `kd_mk`, `matakuliah`, `sks`, `id_mentor`, `kuota`, `sisa_kuota`, `description`) VALUES
@@ -4938,12 +4957,12 @@ INSERT INTO `matakuliah_pertukaran` (`id`, `id_program_kegiatan`, `id_mitra`, `k
 -- --------------------------------------------------------
 
 --
--- Table structure for table `mentor`
+-- Struktur dari tabel `mentor`
 --
 
 CREATE TABLE `mentor` (
-  `id` int(11) NOT NULL,
-  `id_mitra` int(11) NOT NULL,
+  `id` int NOT NULL,
+  `id_mitra` int NOT NULL,
   `nama` varchar(255) NOT NULL,
   `phone_number` varchar(15) NOT NULL,
   `email` varchar(150) NOT NULL,
@@ -4952,10 +4971,10 @@ CREATE TABLE `mentor` (
   `pendidikan_terakhir` varchar(50) NOT NULL,
   `sertifikasi_keahlian` varchar(150) NOT NULL,
   `jenis_personil` enum('Mentor','Dosen Penanggung Jawab','Dosen Praktisi') NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data for table `mentor`
+-- Dumping data untuk tabel `mentor`
 --
 
 INSERT INTO `mentor` (`id`, `id_mitra`, `nama`, `phone_number`, `email`, `alamat`, `jabatan`, `pendidikan_terakhir`, `sertifikasi_keahlian`, `jenis_personil`) VALUES
@@ -4999,12 +5018,12 @@ INSERT INTO `mentor` (`id`, `id_mitra`, `nama`, `phone_number`, `email`, `alamat
 -- --------------------------------------------------------
 
 --
--- Table structure for table `menu`
+-- Struktur dari tabel `menu`
 --
 
 CREATE TABLE `menu` (
-  `id` int(11) NOT NULL,
-  `id_parent` int(11) DEFAULT NULL,
+  `id` int NOT NULL,
+  `id_parent` int DEFAULT NULL,
   `menu` varchar(100) NOT NULL,
   `link` varchar(255) NOT NULL,
   `icon` varchar(150) DEFAULT NULL,
@@ -5012,11 +5031,11 @@ CREATE TABLE `menu` (
   `created_at` datetime NOT NULL,
   `updated_at` datetime NOT NULL,
   `deleted_at` datetime DEFAULT NULL,
-  `urutan` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+  `urutan` int NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data for table `menu`
+-- Dumping data untuk tabel `menu`
 --
 
 INSERT INTO `menu` (`id`, `id_parent`, `menu`, `link`, `icon`, `type`, `created_at`, `updated_at`, `deleted_at`, `urutan`) VALUES
@@ -5059,11 +5078,11 @@ INSERT INTO `menu` (`id`, `id_parent`, `menu`, `link`, `icon`, `type`, `created_
 -- --------------------------------------------------------
 
 --
--- Table structure for table `mitra`
+-- Struktur dari tabel `mitra`
 --
 
 CREATE TABLE `mitra` (
-  `id` int(11) NOT NULL,
+  `id` int NOT NULL,
   `kriteria_mitra` varchar(150) NOT NULL,
   `nama_mitra` varchar(255) NOT NULL,
   `nama_cp` varchar(150) NOT NULL,
@@ -5077,10 +5096,10 @@ CREATE TABLE `mitra` (
   `no_moa` varchar(150) NOT NULL,
   `tanggal_mulai_moa` date NOT NULL,
   `tanggal_berakhir_moa` date NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data for table `mitra`
+-- Dumping data untuk tabel `mitra`
 --
 
 INSERT INTO `mitra` (`id`, `kriteria_mitra`, `nama_mitra`, `nama_cp`, `jabatan_cp`, `email`, `email_cp`, `phone_number`, `phone_number_cp`, `alamat`, `partisipasi_dalam_kurikulum`, `no_moa`, `tanggal_mulai_moa`, `tanggal_berakhir_moa`) VALUES
@@ -5155,20 +5174,20 @@ INSERT INTO `mitra` (`id`, `kriteria_mitra`, `nama_mitra`, `nama_cp`, `jabatan_c
 -- --------------------------------------------------------
 
 --
--- Table structure for table `mk_kegiatan`
+-- Struktur dari tabel `mk_kegiatan`
 --
 
 CREATE TABLE `mk_kegiatan` (
-  `id` int(11) NOT NULL,
-  `id_kegiatan_mbkm_lain` int(11) NOT NULL,
+  `id` int NOT NULL,
+  `id_kegiatan_mbkm_lain` int NOT NULL,
   `kd_mk` varchar(50) NOT NULL,
   `nilai` decimal(10,2) DEFAULT NULL,
   `grade` varchar(5) DEFAULT NULL,
-  `id_user` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+  `id_user` int NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data for table `mk_kegiatan`
+-- Dumping data untuk tabel `mk_kegiatan`
 --
 
 INSERT INTO `mk_kegiatan` (`id`, `id_kegiatan_mbkm_lain`, `kd_mk`, `nilai`, `grade`, `id_user`) VALUES
@@ -5216,36 +5235,36 @@ INSERT INTO `mk_kegiatan` (`id`, `id_kegiatan_mbkm_lain`, `kd_mk`, `nilai`, `gra
 -- --------------------------------------------------------
 
 --
--- Table structure for table `nilai_inbound`
+-- Struktur dari tabel `nilai_inbound`
 --
 
 CREATE TABLE `nilai_inbound` (
-  `id` int(11) NOT NULL,
-  `id_pendaftaran_inbound` int(11) NOT NULL,
-  `id_mhsw` int(11) NOT NULL,
+  `id` int NOT NULL,
+  `id_pendaftaran_inbound` int NOT NULL,
+  `id_mhsw` int NOT NULL,
   `semester` varchar(7) NOT NULL,
   `nilai` decimal(10,2) NOT NULL,
   `grade` varchar(1) NOT NULL,
-  `id_user` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+  `id_user` int NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `nilai_kegiatan`
+-- Struktur dari tabel `nilai_kegiatan`
 --
 
 CREATE TABLE `nilai_kegiatan` (
-  `id` int(11) NOT NULL,
-  `id_pendaftaran` int(11) NOT NULL,
-  `id_matakuliah` int(11) NOT NULL,
+  `id` int NOT NULL,
+  `id_pendaftaran` int NOT NULL,
+  `id_matakuliah` int NOT NULL,
   `nilai` decimal(10,2) NOT NULL,
   `grade` varchar(5) NOT NULL,
-  `id_user` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+  `id_user` int NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data for table `nilai_kegiatan`
+-- Dumping data untuk tabel `nilai_kegiatan`
 --
 
 INSERT INTO `nilai_kegiatan` (`id`, `id_pendaftaran`, `id_matakuliah`, `nilai`, `grade`, `id_user`) VALUES
@@ -5280,32 +5299,32 @@ INSERT INTO `nilai_kegiatan` (`id`, `id_pendaftaran`, `id_matakuliah`, `nilai`, 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `nilai_mk_pertukaran`
+-- Struktur dari tabel `nilai_mk_pertukaran`
 --
 
 CREATE TABLE `nilai_mk_pertukaran` (
-  `id` int(11) NOT NULL,
-  `id_pendaftaran` int(11) NOT NULL,
-  `id_matakuliah_pertukaran` int(11) NOT NULL COMMENT 'id_konversi_mk_pertukaran',
+  `id` int NOT NULL,
+  `id_pendaftaran` int NOT NULL,
+  `id_matakuliah_pertukaran` int NOT NULL COMMENT 'id_konversi_mk_pertukaran',
   `nilai` decimal(10,2) NOT NULL,
   `grade` varchar(1) NOT NULL,
-  `id_user` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+  `id_user` int NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `panduan`
+-- Struktur dari tabel `panduan`
 --
 
 CREATE TABLE `panduan` (
-  `id` int(11) NOT NULL,
+  `id` int NOT NULL,
   `title` varchar(100) NOT NULL,
   `text` text NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data for table `panduan`
+-- Dumping data untuk tabel `panduan`
 --
 
 INSERT INTO `panduan` (`id`, `title`, `text`) VALUES
@@ -5316,24 +5335,24 @@ INSERT INTO `panduan` (`id`, `title`, `text`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `pendaftaran`
+-- Struktur dari tabel `pendaftaran`
 --
 
 CREATE TABLE `pendaftaran` (
-  `id` int(11) NOT NULL,
-  `id_mhsw` int(11) NOT NULL,
-  `id_kegiatan` int(11) NOT NULL,
-  `id_dosen` int(11) DEFAULT NULL,
+  `id` int NOT NULL,
+  `id_mhsw` int NOT NULL,
+  `id_kegiatan` int NOT NULL,
+  `id_dosen` int DEFAULT NULL,
   `semester` varchar(10) NOT NULL,
-  `id_mentor` int(11) DEFAULT NULL,
+  `id_mentor` int DEFAULT NULL,
   `file_laporan_akhir` varchar(255) DEFAULT NULL,
   `status_pendaftaran` enum('On Process','Diterima','Ditolak') NOT NULL,
   `status_kegiatan` enum('Aktif','Selesai','Belum Aktif') NOT NULL,
-  `keterangan` text DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+  `keterangan` text
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data for table `pendaftaran`
+-- Dumping data untuk tabel `pendaftaran`
 --
 
 INSERT INTO `pendaftaran` (`id`, `id_mhsw`, `id_kegiatan`, `id_dosen`, `semester`, `id_mentor`, `file_laporan_akhir`, `status_pendaftaran`, `status_kegiatan`, `keterangan`) VALUES
@@ -5905,60 +5924,60 @@ INSERT INTO `pendaftaran` (`id`, `id_mhsw`, `id_kegiatan`, `id_dosen`, `semester
 -- --------------------------------------------------------
 
 --
--- Table structure for table `pendaftaran_inbound`
+-- Struktur dari tabel `pendaftaran_inbound`
 --
 
 CREATE TABLE `pendaftaran_inbound` (
-  `id` int(11) NOT NULL,
-  `id_mhsw` int(11) NOT NULL,
-  `id_jadwal` int(11) NOT NULL,
-  `id_dosen` int(11) DEFAULT NULL,
+  `id` int NOT NULL,
+  `id_mhsw` int NOT NULL,
+  `id_jadwal` int NOT NULL,
+  `id_dosen` int DEFAULT NULL,
   `semester` varchar(10) NOT NULL,
   `file_laporan_akhir` varchar(255) DEFAULT NULL,
   `status_pendaftaran` enum('On Process','Diterima','Ditolak') NOT NULL,
   `status_kegiatan` enum('Aktif','Selesai','Belum Aktif') NOT NULL,
-  `keterangan` text DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+  `keterangan` text
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `pengumuman`
+-- Struktur dari tabel `pengumuman`
 --
 
 CREATE TABLE `pengumuman` (
-  `id` int(11) NOT NULL,
+  `id` int NOT NULL,
   `title` varchar(100) NOT NULL,
   `text` text NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `persyaratan_inbound`
+-- Struktur dari tabel `persyaratan_inbound`
 --
 
 CREATE TABLE `persyaratan_inbound` (
-  `id` int(11) NOT NULL,
-  `id_pendaftaran` int(11) NOT NULL,
+  `id` int NOT NULL,
+  `id_pendaftaran` int NOT NULL,
   `persyaratan` text NOT NULL,
   `file_upload` varchar(255) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `persyaratan_kegiatan`
+-- Struktur dari tabel `persyaratan_kegiatan`
 --
 
 CREATE TABLE `persyaratan_kegiatan` (
-  `id` int(11) NOT NULL,
-  `id_kegiatan` int(11) NOT NULL,
+  `id` int NOT NULL,
+  `id_kegiatan` int NOT NULL,
   `persyaratan` varchar(255) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data for table `persyaratan_kegiatan`
+-- Dumping data untuk tabel `persyaratan_kegiatan`
 --
 
 INSERT INTO `persyaratan_kegiatan` (`id`, `id_kegiatan`, `persyaratan`) VALUES
@@ -6012,18 +6031,18 @@ INSERT INTO `persyaratan_kegiatan` (`id`, `id_kegiatan`, `persyaratan`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `persyaratan_pendaftaran`
+-- Struktur dari tabel `persyaratan_pendaftaran`
 --
 
 CREATE TABLE `persyaratan_pendaftaran` (
-  `id` int(11) NOT NULL,
-  `id_pendaftaran` int(11) NOT NULL,
-  `id_persyaratan` int(11) NOT NULL,
+  `id` int NOT NULL,
+  `id_pendaftaran` int NOT NULL,
+  `id_persyaratan` int NOT NULL,
   `file_upload` varchar(255) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data for table `persyaratan_pendaftaran`
+-- Dumping data untuk tabel `persyaratan_pendaftaran`
 --
 
 INSERT INTO `persyaratan_pendaftaran` (`id`, `id_pendaftaran`, `id_persyaratan`, `file_upload`) VALUES
@@ -6503,7 +6522,7 @@ INSERT INTO `persyaratan_pendaftaran` (`id`, `id_pendaftaran`, `id_persyaratan`,
 -- --------------------------------------------------------
 
 --
--- Table structure for table `prodi`
+-- Struktur dari tabel `prodi`
 --
 
 CREATE TABLE `prodi` (
@@ -6512,10 +6531,10 @@ CREATE TABLE `prodi` (
   `kd_fak` varchar(30) NOT NULL,
   `nama_prodi` varchar(255) NOT NULL,
   `jenjang` enum('S1','D3') NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data for table `prodi`
+-- Dumping data untuk tabel `prodi`
 --
 
 INSERT INTO `prodi` (`kd_prodi`, `kd_jur`, `kd_fak`, `nama_prodi`, `jenjang`) VALUES
@@ -6528,26 +6547,26 @@ INSERT INTO `prodi` (`kd_prodi`, `kd_jur`, `kd_fak`, `nama_prodi`, `jenjang`) VA
 -- --------------------------------------------------------
 
 --
--- Table structure for table `program_kegiatan`
+-- Struktur dari tabel `program_kegiatan`
 --
 
 CREATE TABLE `program_kegiatan` (
-  `id` int(11) NOT NULL,
-  `id_program` int(11) NOT NULL,
+  `id` int NOT NULL,
+  `id_program` int NOT NULL,
   `nama_kegiatan` varchar(100) NOT NULL,
-  `kuota` int(11) DEFAULT NULL,
-  `sisa_kuota` int(11) DEFAULT NULL,
+  `kuota` int DEFAULT NULL,
+  `sisa_kuota` int DEFAULT NULL,
   `waktu_mulai` date NOT NULL,
   `waktu_selesai` date NOT NULL,
-  `id_mitra` int(11) NOT NULL,
-  `lokasi_kegiatan` text DEFAULT NULL,
+  `id_mitra` int NOT NULL,
+  `lokasi_kegiatan` text,
   `status` enum('daring','luring') DEFAULT NULL,
   `target_peserta` enum('mahasiswa','dosen') NOT NULL,
   `job_desc` text NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data for table `program_kegiatan`
+-- Dumping data untuk tabel `program_kegiatan`
 --
 
 INSERT INTO `program_kegiatan` (`id`, `id_program`, `nama_kegiatan`, `kuota`, `sisa_kuota`, `waktu_mulai`, `waktu_selesai`, `id_mitra`, `lokasi_kegiatan`, `status`, `target_peserta`, `job_desc`) VALUES
@@ -6641,16 +6660,16 @@ INSERT INTO `program_kegiatan` (`id`, `id_program`, `nama_kegiatan`, `kuota`, `s
 -- --------------------------------------------------------
 
 --
--- Table structure for table `program_mbkm`
+-- Struktur dari tabel `program_mbkm`
 --
 
 CREATE TABLE `program_mbkm` (
-  `id` int(11) NOT NULL,
+  `id` int NOT NULL,
   `nama_program` varchar(255) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data for table `program_mbkm`
+-- Dumping data untuk tabel `program_mbkm`
 --
 
 INSERT INTO `program_mbkm` (`id`, `nama_program`) VALUES
@@ -6665,22 +6684,22 @@ INSERT INTO `program_mbkm` (`id`, `nama_program`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `riwayat_alumni`
+-- Struktur dari tabel `riwayat_alumni`
 --
 
 CREATE TABLE `riwayat_alumni` (
-  `id` int(11) NOT NULL,
-  `id_mhsw` int(11) NOT NULL,
+  `id` int NOT NULL,
+  `id_mhsw` int NOT NULL,
   `tipe` enum('Pekerjaan','Pendidikan','Sertifikasi') NOT NULL,
   `riwayat` varchar(255) NOT NULL,
   `lokasi` varchar(100) NOT NULL,
   `status_kerja` enum('Masih Aktif','Selesai') NOT NULL,
   `tanggal_mulai` date NOT NULL,
   `tanggal_selesai` date DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data for table `riwayat_alumni`
+-- Dumping data untuk tabel `riwayat_alumni`
 --
 
 INSERT INTO `riwayat_alumni` (`id`, `id_mhsw`, `tipe`, `riwayat`, `lokasi`, `status_kerja`, `tanggal_mulai`, `tanggal_selesai`) VALUES
@@ -6689,21 +6708,21 @@ INSERT INTO `riwayat_alumni` (`id`, `id_mhsw`, `tipe`, `riwayat`, `lokasi`, `sta
 -- --------------------------------------------------------
 
 --
--- Table structure for table `riwayat_jabatan`
+-- Struktur dari tabel `riwayat_jabatan`
 --
 
 CREATE TABLE `riwayat_jabatan` (
-  `id` int(11) NOT NULL,
-  `id_mhsw` int(11) NOT NULL,
+  `id` int NOT NULL,
+  `id_mhsw` int NOT NULL,
   `instansi` varchar(150) NOT NULL,
   `alamat` text NOT NULL,
   `jabatan` varchar(100) NOT NULL,
   `tanggal_mulai` date NOT NULL,
   `tanggal_selesai` date DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data for table `riwayat_jabatan`
+-- Dumping data untuk tabel `riwayat_jabatan`
 --
 
 INSERT INTO `riwayat_jabatan` (`id`, `id_mhsw`, `instansi`, `alamat`, `jabatan`, `tanggal_mulai`, `tanggal_selesai`) VALUES
@@ -6716,59 +6735,59 @@ INSERT INTO `riwayat_jabatan` (`id`, `id_mhsw`, `instansi`, `alamat`, `jabatan`,
 -- --------------------------------------------------------
 
 --
--- Table structure for table `riwayat_jabatan_dosen`
+-- Struktur dari tabel `riwayat_jabatan_dosen`
 --
 
 CREATE TABLE `riwayat_jabatan_dosen` (
-  `id` int(11) NOT NULL,
-  `id_dosen` int(11) NOT NULL,
+  `id` int NOT NULL,
+  `id_dosen` int NOT NULL,
   `instansi` varchar(150) NOT NULL,
   `alamat` text NOT NULL,
   `jabatan` varchar(100) NOT NULL,
   `tanggal_mulai` date NOT NULL,
   `tanggal_selesai` date DEFAULT NULL,
   `jenis_jabatan` enum('Dalam Kampus','Luar Kampus') NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `riwayat_jabatan_mentor`
+-- Struktur dari tabel `riwayat_jabatan_mentor`
 --
 
 CREATE TABLE `riwayat_jabatan_mentor` (
-  `id` int(11) NOT NULL,
-  `id_mentor` int(11) NOT NULL,
+  `id` int NOT NULL,
+  `id_mentor` int NOT NULL,
   `instansi` varchar(150) NOT NULL,
   `alamat` text NOT NULL,
   `jabatan` varchar(100) NOT NULL,
   `tanggal_mulai` date NOT NULL,
   `tanggal_selesai` date DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `riwayat_karya_ilmiah`
+-- Struktur dari tabel `riwayat_karya_ilmiah`
 --
 
 CREATE TABLE `riwayat_karya_ilmiah` (
-  `id` int(11) NOT NULL,
-  `id_mhsw` int(11) NOT NULL,
+  `id` int NOT NULL,
+  `id_mhsw` int NOT NULL,
   `jenis_luaran` enum('Pengabdian','Penelitian','Lainnya') NOT NULL,
   `jenis_karya_ilmiah` varchar(150) NOT NULL,
   `judul_karya_ilmiah` varchar(150) NOT NULL,
   `peran` varchar(150) NOT NULL,
   `nama_jurnal` varchar(150) NOT NULL,
-  `tahun` year(4) NOT NULL,
+  `tahun` year NOT NULL,
   `edisi` varchar(50) NOT NULL,
   `halaman` varchar(50) NOT NULL,
   `sumber_dana` varchar(100) NOT NULL,
   `alamat_url_karya_ilmiah` text NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data for table `riwayat_karya_ilmiah`
+-- Dumping data untuk tabel `riwayat_karya_ilmiah`
 --
 
 INSERT INTO `riwayat_karya_ilmiah` (`id`, `id_mhsw`, `jenis_luaran`, `jenis_karya_ilmiah`, `judul_karya_ilmiah`, `peran`, `nama_jurnal`, `tahun`, `edisi`, `halaman`, `sumber_dana`, `alamat_url_karya_ilmiah`) VALUES
@@ -6777,66 +6796,66 @@ INSERT INTO `riwayat_karya_ilmiah` (`id`, `id_mhsw`, `jenis_luaran`, `jenis_kary
 -- --------------------------------------------------------
 
 --
--- Table structure for table `riwayat_karya_ilmiah_dosen`
+-- Struktur dari tabel `riwayat_karya_ilmiah_dosen`
 --
 
 CREATE TABLE `riwayat_karya_ilmiah_dosen` (
-  `id` int(11) NOT NULL,
-  `id_dosen` int(11) NOT NULL,
+  `id` int NOT NULL,
+  `id_dosen` int NOT NULL,
   `jenis_luaran` enum('Pengabdian','Penelitian','Lainnya') NOT NULL,
   `jenis_karya_ilmiah` varchar(150) NOT NULL,
   `judul_karya_ilmiah` varchar(150) NOT NULL,
   `peran` varchar(150) NOT NULL,
   `nama_jurnal` varchar(150) NOT NULL,
-  `tahun` year(4) NOT NULL,
+  `tahun` year NOT NULL,
   `edisi` varchar(50) NOT NULL,
   `halaman` varchar(50) NOT NULL,
   `sumber_dana` varchar(100) NOT NULL,
   `alamat_url_karya_ilmiah` text NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `riwayat_karya_ilmiah_mentor`
+-- Struktur dari tabel `riwayat_karya_ilmiah_mentor`
 --
 
 CREATE TABLE `riwayat_karya_ilmiah_mentor` (
-  `id` int(11) NOT NULL,
-  `id_dosen` int(11) NOT NULL,
+  `id` int NOT NULL,
+  `id_dosen` int NOT NULL,
   `jenis_luaran` enum('Pengabdian','Penilitian','Lainnya') NOT NULL,
   `jenis_karya_ilmiah` varchar(150) NOT NULL,
   `judul_karya_ilmiah` varchar(150) NOT NULL,
   `peran` varchar(150) NOT NULL,
   `nama_jurnal` varchar(150) NOT NULL,
-  `tahun` year(4) NOT NULL,
+  `tahun` year NOT NULL,
   `edisi` varchar(50) NOT NULL,
   `halaman` varchar(50) NOT NULL,
   `sumber_dana` varchar(100) NOT NULL,
   `alamat_url_karya_ilmiah` text NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `riwayat_kegiatan_mhsw`
+-- Struktur dari tabel `riwayat_kegiatan_mhsw`
 --
 
 CREATE TABLE `riwayat_kegiatan_mhsw` (
-  `id` int(11) NOT NULL,
-  `id_mhsw` int(11) NOT NULL,
+  `id` int NOT NULL,
+  `id_mhsw` int NOT NULL,
   `tipe` enum('Pekerjaan','Organisasi','Sertifikasi','Seminar/Pelatihan','MBKM Universitas','MBKM Kementrian') NOT NULL,
   `riwayat` varchar(255) NOT NULL,
   `lokasi` varchar(100) NOT NULL,
-  `id_program_mbkm` int(11) DEFAULT NULL,
-  `uraian` text DEFAULT NULL,
+  `id_program_mbkm` int DEFAULT NULL,
+  `uraian` text,
   `status_kerja` enum('Masih Aktif','Selesai') NOT NULL,
   `tanggal_mulai` date NOT NULL,
   `tanggal_selesai` date DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data for table `riwayat_kegiatan_mhsw`
+-- Dumping data untuk tabel `riwayat_kegiatan_mhsw`
 --
 
 INSERT INTO `riwayat_kegiatan_mhsw` (`id`, `id_mhsw`, `tipe`, `riwayat`, `lokasi`, `id_program_mbkm`, `uraian`, `status_kerja`, `tanggal_mulai`, `tanggal_selesai`) VALUES
@@ -6847,19 +6866,19 @@ INSERT INTO `riwayat_kegiatan_mhsw` (`id`, `id_mhsw`, `tipe`, `riwayat`, `lokasi
 -- --------------------------------------------------------
 
 --
--- Table structure for table `riwayat_organisasi`
+-- Struktur dari tabel `riwayat_organisasi`
 --
 
 CREATE TABLE `riwayat_organisasi` (
-  `id` int(11) NOT NULL,
-  `id_mhsw` int(11) NOT NULL,
+  `id` int NOT NULL,
+  `id_mhsw` int NOT NULL,
   `nama_lembaga` varchar(150) NOT NULL,
   `jabatan` varchar(150) NOT NULL,
   `tanggal_bergabung` date NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data for table `riwayat_organisasi`
+-- Dumping data untuk tabel `riwayat_organisasi`
 --
 
 INSERT INTO `riwayat_organisasi` (`id`, `id_mhsw`, `nama_lembaga`, `jabatan`, `tanggal_bergabung`) VALUES
@@ -6895,51 +6914,51 @@ INSERT INTO `riwayat_organisasi` (`id`, `id_mhsw`, `nama_lembaga`, `jabatan`, `t
 -- --------------------------------------------------------
 
 --
--- Table structure for table `riwayat_organisasi_dosen`
+-- Struktur dari tabel `riwayat_organisasi_dosen`
 --
 
 CREATE TABLE `riwayat_organisasi_dosen` (
-  `id` int(11) NOT NULL,
-  `id_dosen` int(11) NOT NULL,
+  `id` int NOT NULL,
+  `id_dosen` int NOT NULL,
   `nama_lembaga` varchar(150) NOT NULL,
   `jabatan` varchar(150) NOT NULL,
   `tanggal_bergabung` date NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `riwayat_organisasi_mentor`
+-- Struktur dari tabel `riwayat_organisasi_mentor`
 --
 
 CREATE TABLE `riwayat_organisasi_mentor` (
-  `id` int(11) NOT NULL,
-  `id_mentor` int(11) NOT NULL,
+  `id` int NOT NULL,
+  `id_mentor` int NOT NULL,
   `nama_lembaga` varchar(150) NOT NULL,
   `jabatan` varchar(150) NOT NULL,
   `tanggal_bergabung` date NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `riwayat_pekerjaan`
+-- Struktur dari tabel `riwayat_pekerjaan`
 --
 
 CREATE TABLE `riwayat_pekerjaan` (
-  `id` int(11) NOT NULL,
-  `id_mhsw` int(11) NOT NULL,
+  `id` int NOT NULL,
+  `id_mhsw` int NOT NULL,
   `nama_perusahaan` varchar(150) NOT NULL,
   `alamat` text NOT NULL,
   `bergerak_bidang` varchar(100) NOT NULL,
   `jabatan` varchar(100) NOT NULL,
   `tanggal_masuk` date NOT NULL,
   `tanggal_berhenti` date DEFAULT NULL,
-  `gaji` bigint(20) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+  `gaji` bigint NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data for table `riwayat_pekerjaan`
+-- Dumping data untuk tabel `riwayat_pekerjaan`
 --
 
 INSERT INTO `riwayat_pekerjaan` (`id`, `id_mhsw`, `nama_perusahaan`, `alamat`, `bergerak_bidang`, `jabatan`, `tanggal_masuk`, `tanggal_berhenti`, `gaji`) VALUES
@@ -6968,49 +6987,49 @@ INSERT INTO `riwayat_pekerjaan` (`id`, `id_mhsw`, `nama_perusahaan`, `alamat`, `
 -- --------------------------------------------------------
 
 --
--- Table structure for table `riwayat_pekerjaan_dosen`
+-- Struktur dari tabel `riwayat_pekerjaan_dosen`
 --
 
 CREATE TABLE `riwayat_pekerjaan_dosen` (
-  `id` int(11) NOT NULL,
-  `id_dosen` int(11) NOT NULL,
+  `id` int NOT NULL,
+  `id_dosen` int NOT NULL,
   `nama_perusahaan` varchar(150) NOT NULL,
   `alamat` text NOT NULL,
   `bergerak_bidang` varchar(100) NOT NULL,
   `jabatan` varchar(100) NOT NULL,
   `tanggal_masuk` date NOT NULL,
   `tanggal_berhenti` date DEFAULT NULL,
-  `gaji` bigint(20) NOT NULL,
+  `gaji` bigint NOT NULL,
   `jenis_pekerjaan` enum('Dalam Kampus','Luar Kampus') NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `riwayat_pekerjaan_mentor`
+-- Struktur dari tabel `riwayat_pekerjaan_mentor`
 --
 
 CREATE TABLE `riwayat_pekerjaan_mentor` (
-  `id` int(11) NOT NULL,
-  `id_mentor` int(11) NOT NULL,
+  `id` int NOT NULL,
+  `id_mentor` int NOT NULL,
   `nama_perusahaan` varchar(150) NOT NULL,
   `alamat` text NOT NULL,
   `bergerak_bidang` varchar(100) NOT NULL,
   `jabatan` varchar(100) NOT NULL,
   `tanggal_masuk` date NOT NULL,
   `tanggal_berhenti` date DEFAULT NULL,
-  `gaji` bigint(20) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+  `gaji` bigint NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `riwayat_pendidikan`
+-- Struktur dari tabel `riwayat_pendidikan`
 --
 
 CREATE TABLE `riwayat_pendidikan` (
-  `id` int(11) NOT NULL,
-  `id_mhsw` int(11) NOT NULL,
+  `id` int NOT NULL,
+  `id_mhsw` int NOT NULL,
   `jenjang` enum('D3','D4','S1','S2','S3','Pendidikan Profesi') NOT NULL,
   `tanggal_masuk` date NOT NULL,
   `nama_sekolah` varchar(100) NOT NULL,
@@ -7023,10 +7042,10 @@ CREATE TABLE `riwayat_pendidikan` (
   `tanggal_yudisium` date NOT NULL,
   `ipk` decimal(10,2) NOT NULL,
   `gelar` varchar(25) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data for table `riwayat_pendidikan`
+-- Dumping data untuk tabel `riwayat_pendidikan`
 --
 
 INSERT INTO `riwayat_pendidikan` (`id`, `id_mhsw`, `jenjang`, `tanggal_masuk`, `nama_sekolah`, `fakultas`, `dosen_pembimbing`, `jurusan`, `prodi`, `konsentrasi`, `tugas_akhir`, `tanggal_yudisium`, `ipk`, `gelar`) VALUES
@@ -7052,12 +7071,12 @@ INSERT INTO `riwayat_pendidikan` (`id`, `id_mhsw`, `jenjang`, `tanggal_masuk`, `
 -- --------------------------------------------------------
 
 --
--- Table structure for table `riwayat_pendidikan_dosen`
+-- Struktur dari tabel `riwayat_pendidikan_dosen`
 --
 
 CREATE TABLE `riwayat_pendidikan_dosen` (
-  `id` int(11) NOT NULL,
-  `id_dosen` int(11) NOT NULL,
+  `id` int NOT NULL,
+  `id_dosen` int NOT NULL,
   `jenjang` enum('D3','D4','S1','S2','S3','Pendidikan Profesi') NOT NULL,
   `tanggal_masuk` date NOT NULL,
   `nama_sekolah` varchar(100) NOT NULL,
@@ -7070,10 +7089,10 @@ CREATE TABLE `riwayat_pendidikan_dosen` (
   `tanggal_yudisium` date NOT NULL,
   `ipk` decimal(10,2) NOT NULL,
   `gelar` varchar(25) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data for table `riwayat_pendidikan_dosen`
+-- Dumping data untuk tabel `riwayat_pendidikan_dosen`
 --
 
 INSERT INTO `riwayat_pendidikan_dosen` (`id`, `id_dosen`, `jenjang`, `tanggal_masuk`, `nama_sekolah`, `fakultas`, `dosen_pembimbing`, `jurusan`, `prodi`, `konsentrasi`, `tugas_akhir`, `tanggal_yudisium`, `ipk`, `gelar`) VALUES
@@ -7088,12 +7107,12 @@ INSERT INTO `riwayat_pendidikan_dosen` (`id`, `id_dosen`, `jenjang`, `tanggal_ma
 -- --------------------------------------------------------
 
 --
--- Table structure for table `riwayat_pendidikan_mentor`
+-- Struktur dari tabel `riwayat_pendidikan_mentor`
 --
 
 CREATE TABLE `riwayat_pendidikan_mentor` (
-  `id` int(11) NOT NULL,
-  `id_mentor` int(11) NOT NULL,
+  `id` int NOT NULL,
+  `id_mentor` int NOT NULL,
   `jenjang` enum('D3','D4','S1','S2','S3','Pendidikan Profesi') NOT NULL,
   `tanggal_masuk` date NOT NULL,
   `nama_sekolah` varchar(100) NOT NULL,
@@ -7106,22 +7125,22 @@ CREATE TABLE `riwayat_pendidikan_mentor` (
   `tanggal_yudisium` date NOT NULL,
   `ipk` decimal(10,2) NOT NULL,
   `gelar` varchar(25) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `riwayat_prestasi`
+-- Struktur dari tabel `riwayat_prestasi`
 --
 
 CREATE TABLE `riwayat_prestasi` (
-  `id` int(11) NOT NULL,
-  `id_mhsw` int(11) NOT NULL,
+  `id` int NOT NULL,
+  `id_mhsw` int NOT NULL,
   `nama_kegiatan` varchar(150) NOT NULL,
   `nama_pelaksana` varchar(100) NOT NULL,
   `tingkat_kegiatan` varchar(100) NOT NULL,
   `nama_pembimbing` varchar(100) NOT NULL,
-  `dana_diterima` bigint(20) NOT NULL,
+  `dana_diterima` bigint NOT NULL,
   `tanggal_mulai` varchar(20) NOT NULL,
   `tanggal_selesai` varchar(20) NOT NULL,
   `keterangan` text NOT NULL,
@@ -7136,10 +7155,10 @@ CREATE TABLE `riwayat_prestasi` (
   `sertifikat` varchar(255) NOT NULL,
   `link` varchar(255) NOT NULL,
   `sk` varchar(255) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data for table `riwayat_prestasi`
+-- Dumping data untuk tabel `riwayat_prestasi`
 --
 
 INSERT INTO `riwayat_prestasi` (`id`, `id_mhsw`, `nama_kegiatan`, `nama_pelaksana`, `tingkat_kegiatan`, `nama_pembimbing`, `dana_diterima`, `tanggal_mulai`, `tanggal_selesai`, `keterangan`, `peringkat`, `jml_negara`, `jml_pt`, `jenis_peserta`, `nomor_sertifikat`, `m_pelaksana`, `nomor_sk`, `foto`, `sertifikat`, `link`, `sk`) VALUES
@@ -7156,46 +7175,46 @@ INSERT INTO `riwayat_prestasi` (`id`, `id_mhsw`, `nama_kegiatan`, `nama_pelaksan
 -- --------------------------------------------------------
 
 --
--- Table structure for table `riwayat_prestasi_dosen`
+-- Struktur dari tabel `riwayat_prestasi_dosen`
 --
 
 CREATE TABLE `riwayat_prestasi_dosen` (
-  `id` int(11) NOT NULL,
-  `id_dosen` int(11) NOT NULL,
+  `id` int NOT NULL,
+  `id_dosen` int NOT NULL,
   `nama_kegiatan` varchar(150) NOT NULL,
   `nama_pelaksana` varchar(100) NOT NULL,
   `tingkat_kegiatan` varchar(100) NOT NULL,
   `nama_pembimbing` varchar(100) NOT NULL,
-  `dana_diterima` bigint(20) NOT NULL,
+  `dana_diterima` bigint NOT NULL,
   `keterangan` text NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `riwayat_prestasi_mentor`
+-- Struktur dari tabel `riwayat_prestasi_mentor`
 --
 
 CREATE TABLE `riwayat_prestasi_mentor` (
-  `id` int(11) NOT NULL,
-  `id_mentor` int(11) NOT NULL,
+  `id` int NOT NULL,
+  `id_mentor` int NOT NULL,
   `nama_kegiatan` varchar(150) NOT NULL,
   `nama_pelaksana` varchar(100) NOT NULL,
   `tingkat_kegiatan` varchar(100) NOT NULL,
   `nama_pembimbing` varchar(100) NOT NULL,
-  `dana_diterima` bigint(20) NOT NULL,
+  `dana_diterima` bigint NOT NULL,
   `keterangan` text NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `riwayat_seminar`
+-- Struktur dari tabel `riwayat_seminar`
 --
 
 CREATE TABLE `riwayat_seminar` (
-  `id` int(11) NOT NULL,
-  `id_mhsw` int(11) NOT NULL,
+  `id` int NOT NULL,
+  `id_mhsw` int NOT NULL,
   `nama_kegiatan` varchar(150) NOT NULL,
   `pelaksana_kegiatan` varchar(100) NOT NULL,
   `jenis_kegiatan` varchar(150) NOT NULL,
@@ -7204,10 +7223,10 @@ CREATE TABLE `riwayat_seminar` (
   `tanggal_mulai` date NOT NULL,
   `tanggal_selesai` date DEFAULT NULL,
   `keterangan` text NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data for table `riwayat_seminar`
+-- Dumping data untuk tabel `riwayat_seminar`
 --
 
 INSERT INTO `riwayat_seminar` (`id`, `id_mhsw`, `nama_kegiatan`, `pelaksana_kegiatan`, `jenis_kegiatan`, `tingkat_kegiatan`, `peran`, `tanggal_mulai`, `tanggal_selesai`, `keterangan`) VALUES
@@ -7221,12 +7240,12 @@ INSERT INTO `riwayat_seminar` (`id`, `id_mhsw`, `nama_kegiatan`, `pelaksana_kegi
 -- --------------------------------------------------------
 
 --
--- Table structure for table `riwayat_seminar_dosen`
+-- Struktur dari tabel `riwayat_seminar_dosen`
 --
 
 CREATE TABLE `riwayat_seminar_dosen` (
-  `id` int(11) NOT NULL,
-  `id_dosen` int(11) NOT NULL,
+  `id` int NOT NULL,
+  `id_dosen` int NOT NULL,
   `nama_kegiatan` varchar(150) NOT NULL,
   `pelaksana_kegiatan` varchar(100) NOT NULL,
   `jenis_kegiatan` varchar(150) NOT NULL,
@@ -7235,17 +7254,17 @@ CREATE TABLE `riwayat_seminar_dosen` (
   `tanggal_mulai` date NOT NULL,
   `tanggal_selesai` date DEFAULT NULL,
   `keterangan` text NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `riwayat_seminar_mentor`
+-- Struktur dari tabel `riwayat_seminar_mentor`
 --
 
 CREATE TABLE `riwayat_seminar_mentor` (
-  `id` int(11) NOT NULL,
-  `id_mentor` int(11) NOT NULL,
+  `id` int NOT NULL,
+  `id_mentor` int NOT NULL,
   `nama_kegiatan` varchar(150) NOT NULL,
   `pelaksana_kegiatan` varchar(100) NOT NULL,
   `jenis_kegiatan` varchar(150) NOT NULL,
@@ -7254,27 +7273,27 @@ CREATE TABLE `riwayat_seminar_mentor` (
   `tanggal_mulai` date NOT NULL,
   `tanggal_selesai` date DEFAULT NULL,
   `keterangan` text NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `riwayat_wirausaha`
+-- Struktur dari tabel `riwayat_wirausaha`
 --
 
 CREATE TABLE `riwayat_wirausaha` (
-  `id` int(11) NOT NULL,
-  `id_mhsw` int(11) NOT NULL,
+  `id` int NOT NULL,
+  `id_mhsw` int NOT NULL,
   `nama_usaha` varchar(150) NOT NULL,
   `jenis_usaha` varchar(150) NOT NULL,
   `alamat_usaha` text NOT NULL,
   `tanggal_mulai` date NOT NULL,
   `tanggal_selesai` date DEFAULT NULL,
-  `rata_rata_omset` bigint(20) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+  `rata_rata_omset` bigint NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data for table `riwayat_wirausaha`
+-- Dumping data untuk tabel `riwayat_wirausaha`
 --
 
 INSERT INTO `riwayat_wirausaha` (`id`, `id_mhsw`, `nama_usaha`, `jenis_usaha`, `alamat_usaha`, `tanggal_mulai`, `tanggal_selesai`, `rata_rata_omset`) VALUES
@@ -7284,58 +7303,58 @@ INSERT INTO `riwayat_wirausaha` (`id`, `id_mhsw`, `nama_usaha`, `jenis_usaha`, `
 -- --------------------------------------------------------
 
 --
--- Table structure for table `riwayat_wirausaha_dosen`
+-- Struktur dari tabel `riwayat_wirausaha_dosen`
 --
 
 CREATE TABLE `riwayat_wirausaha_dosen` (
-  `id` int(11) NOT NULL,
-  `id_dosen` int(11) NOT NULL,
+  `id` int NOT NULL,
+  `id_dosen` int NOT NULL,
   `nama_usaha` varchar(150) NOT NULL,
   `jenis_usaha` varchar(150) NOT NULL,
   `alamat_usaha` text NOT NULL,
   `tanggal_mulai` date NOT NULL,
   `tanggal_selesai` date DEFAULT NULL,
-  `rata_rata_omset` bigint(20) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+  `rata_rata_omset` bigint NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `riwayat_wirausaha_mentor`
+-- Struktur dari tabel `riwayat_wirausaha_mentor`
 --
 
 CREATE TABLE `riwayat_wirausaha_mentor` (
-  `id` int(11) NOT NULL,
-  `id_mentor` int(11) NOT NULL,
+  `id` int NOT NULL,
+  `id_mentor` int NOT NULL,
   `nama_usaha` varchar(150) NOT NULL,
   `jenis_usaha` varchar(150) NOT NULL,
   `alamat_usaha` text NOT NULL,
   `tanggal_mulai` date NOT NULL,
   `tanggal_selesai` date DEFAULT NULL,
-  `rata_rata_omset` bigint(20) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+  `rata_rata_omset` bigint NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `role_menu`
+-- Struktur dari tabel `role_menu`
 --
 
 CREATE TABLE `role_menu` (
-  `id` int(11) NOT NULL,
-  `menu_id` int(11) NOT NULL,
-  `level_id` int(11) NOT NULL,
+  `id` int NOT NULL,
+  `menu_id` int NOT NULL,
+  `level_id` int NOT NULL,
   `create` enum('y','n') NOT NULL,
   `read` enum('y','n') NOT NULL,
   `update` enum('y','n') NOT NULL,
   `delete` enum('y','n') NOT NULL,
-  `created_at` datetime NOT NULL DEFAULT current_timestamp(),
-  `updated_at` datetime NOT NULL DEFAULT current_timestamp(),
+  `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `deleted_at` datetime DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data for table `role_menu`
+-- Dumping data untuk tabel `role_menu`
 --
 
 INSERT INTO `role_menu` (`id`, `menu_id`, `level_id`, `create`, `read`, `update`, `delete`, `created_at`, `updated_at`, `deleted_at`) VALUES
@@ -7374,17 +7393,17 @@ INSERT INTO `role_menu` (`id`, `menu_id`, `level_id`, `create`, `read`, `update`
 -- --------------------------------------------------------
 
 --
--- Table structure for table `temp_mk_pertukaran`
+-- Struktur dari tabel `temp_mk_pertukaran`
 --
 
 CREATE TABLE `temp_mk_pertukaran` (
-  `id` int(11) NOT NULL,
-  `id_pendaftaran` int(11) NOT NULL,
+  `id` int NOT NULL,
+  `id_pendaftaran` int NOT NULL,
   `kd_mk` varchar(50) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data for table `temp_mk_pertukaran`
+-- Dumping data untuk tabel `temp_mk_pertukaran`
 --
 
 INSERT INTO `temp_mk_pertukaran` (`id`, `id_pendaftaran`, `kd_mk`) VALUES
@@ -10449,22 +10468,22 @@ INSERT INTO `temp_mk_pertukaran` (`id`, `id_pendaftaran`, `kd_mk`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `users`
+-- Struktur dari tabel `users`
 --
 
 CREATE TABLE `users` (
-  `id` int(11) NOT NULL,
+  `id` int NOT NULL,
   `username` varchar(25) NOT NULL,
   `password` varchar(255) NOT NULL,
   `kd_prodi` varchar(20) DEFAULT NULL,
-  `id_level` int(11) NOT NULL,
+  `id_level` int NOT NULL,
   `full_name` varchar(100) NOT NULL,
   `phone_number` varchar(12) NOT NULL,
-  `id_mitra` int(11) NOT NULL DEFAULT 0
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+  `id_mitra` int NOT NULL DEFAULT '0'
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data for table `users`
+-- Dumping data untuk tabel `users`
 --
 
 INSERT INTO `users` (`id`, `username`, `password`, `kd_prodi`, `id_level`, `full_name`, `phone_number`, `id_mitra`) VALUES
@@ -10709,17 +10728,17 @@ INSERT INTO `users` (`id`, `username`, `password`, `kd_prodi`, `id_level`, `full
 (272, 'admin.bpbd', '$2y$10$u1ISGYvP14HcPBgAo3HiP.Vs91TSMMzkjetiDsxKz5KV/3rjj2Bs.', NULL, 3, 'admin bpbd', '123456', 54),
 (273, 'mitra', '$2y$10$O32Dz.OmQ6qQcKQ7OlUxMuOuk.JZigvj0JQVGdfE.d3ltI5xmVlLW', NULL, 3, 'Rachmad Kurniawan', '082343753808', 1),
 (274, 'prodi', '$2y$10$O32Dz.OmQ6qQcKQ7OlUxMuOuk.JZigvj0JQVGdfE.d3ltI5xmVlLW', 'C201', 2, 'Rachmad Kurniawan', '082343753808', 0),
-(275, 'fikri', '$2y$10$A9z7YsyIYk0T2Xq.DPMni.J377hvkoX337yWuidF6bwQ4hxgbLQKu', NULL, 1, 'Fikri ', '085211111111', 0),
+(275, 'fikri', '$2y$10$57qXuL296pde4DRAB2ANxuIcLLrnm8bIBpXWkR1Z9.xcA02ek/g8G', NULL, 1, 'Fikri ', '085211111111', 0),
 (276, 'dosen', '$2y$10$IgFWE0fmUtjnuP3fWxXawuDLkrlBgCXwD8myAsBctlZfqT8/D.BCi', 'C301', 4, 'Rachmad Kurniawan', '085157025579', 0);
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `users_mhsw`
+-- Struktur dari tabel `users_mhsw`
 --
 
 CREATE TABLE `users_mhsw` (
-  `id` int(11) NOT NULL,
+  `id` int NOT NULL,
   `email` varchar(150) NOT NULL,
   `password` varchar(255) NOT NULL,
   `kd_fak` varchar(20) NOT NULL,
@@ -10727,10 +10746,10 @@ CREATE TABLE `users_mhsw` (
   `level` enum('alumni','mahasiswa','inbound') NOT NULL,
   `full_name` varchar(150) NOT NULL,
   `phone_number` varchar(15) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data for table `users_mhsw`
+-- Dumping data untuk tabel `users_mhsw`
 --
 
 INSERT INTO `users_mhsw` (`id`, `email`, `password`, `kd_fak`, `kd_prodi`, `level`, `full_name`, `phone_number`) VALUES
@@ -11338,716 +11357,728 @@ INSERT INTO `users_mhsw` (`id`, `email`, `password`, `kd_fak`, `kd_prodi`, `leve
 --
 
 --
--- Indexes for table `dosen`
+-- Indeks untuk tabel `api_logs`
+--
+ALTER TABLE `api_logs`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indeks untuk tabel `dosen`
 --
 ALTER TABLE `dosen`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `fakultas`
+-- Indeks untuk tabel `fakultas`
 --
 ALTER TABLE `fakultas`
   ADD PRIMARY KEY (`kd_fak`);
 
 --
--- Indexes for table `jadwal_kuliah_inbound`
+-- Indeks untuk tabel `jadwal_kuliah_inbound`
 --
 ALTER TABLE `jadwal_kuliah_inbound`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `jurusan`
+-- Indeks untuk tabel `jurusan`
 --
 ALTER TABLE `jurusan`
   ADD PRIMARY KEY (`kd_jur`);
 
 --
--- Indexes for table `kegiatan_mbkm_lain`
+-- Indeks untuk tabel `kegiatan_mbkm_lain`
 --
 ALTER TABLE `kegiatan_mbkm_lain`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `konversi_matakuliah`
+-- Indeks untuk tabel `konversi_matakuliah`
 --
 ALTER TABLE `konversi_matakuliah`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `konversi_mk_pertukaran`
+-- Indeks untuk tabel `konversi_mk_pertukaran`
 --
 ALTER TABLE `konversi_mk_pertukaran`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `level`
+-- Indeks untuk tabel `level`
 --
 ALTER TABLE `level`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `logbook`
+-- Indeks untuk tabel `logbook`
 --
 ALTER TABLE `logbook`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `logbook_inbound`
+-- Indeks untuk tabel `logbook_inbound`
 --
 ALTER TABLE `logbook_inbound`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `mahasiswa`
+-- Indeks untuk tabel `mahasiswa`
 --
 ALTER TABLE `mahasiswa`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `mahasiswa_inbound`
+-- Indeks untuk tabel `mahasiswa_inbound`
 --
 ALTER TABLE `mahasiswa_inbound`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `matakuliah`
+-- Indeks untuk tabel `matakuliah`
 --
 ALTER TABLE `matakuliah`
   ADD PRIMARY KEY (`kd_mk`);
 
 --
--- Indexes for table `matakuliah_pertukaran`
+-- Indeks untuk tabel `matakuliah_pertukaran`
 --
 ALTER TABLE `matakuliah_pertukaran`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `mentor`
+-- Indeks untuk tabel `mentor`
 --
 ALTER TABLE `mentor`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `menu`
+-- Indeks untuk tabel `menu`
 --
 ALTER TABLE `menu`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `mitra`
+-- Indeks untuk tabel `mitra`
 --
 ALTER TABLE `mitra`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `mk_kegiatan`
+-- Indeks untuk tabel `mk_kegiatan`
 --
 ALTER TABLE `mk_kegiatan`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `nilai_inbound`
+-- Indeks untuk tabel `nilai_inbound`
 --
 ALTER TABLE `nilai_inbound`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `nilai_kegiatan`
+-- Indeks untuk tabel `nilai_kegiatan`
 --
 ALTER TABLE `nilai_kegiatan`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `nilai_mk_pertukaran`
+-- Indeks untuk tabel `nilai_mk_pertukaran`
 --
 ALTER TABLE `nilai_mk_pertukaran`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `panduan`
+-- Indeks untuk tabel `panduan`
 --
 ALTER TABLE `panduan`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `pendaftaran`
+-- Indeks untuk tabel `pendaftaran`
 --
 ALTER TABLE `pendaftaran`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `pendaftaran_inbound`
+-- Indeks untuk tabel `pendaftaran_inbound`
 --
 ALTER TABLE `pendaftaran_inbound`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `pengumuman`
+-- Indeks untuk tabel `pengumuman`
 --
 ALTER TABLE `pengumuman`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `persyaratan_inbound`
+-- Indeks untuk tabel `persyaratan_inbound`
 --
 ALTER TABLE `persyaratan_inbound`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `persyaratan_kegiatan`
+-- Indeks untuk tabel `persyaratan_kegiatan`
 --
 ALTER TABLE `persyaratan_kegiatan`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `persyaratan_pendaftaran`
+-- Indeks untuk tabel `persyaratan_pendaftaran`
 --
 ALTER TABLE `persyaratan_pendaftaran`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `prodi`
+-- Indeks untuk tabel `prodi`
 --
 ALTER TABLE `prodi`
   ADD PRIMARY KEY (`kd_prodi`);
 
 --
--- Indexes for table `program_kegiatan`
+-- Indeks untuk tabel `program_kegiatan`
 --
 ALTER TABLE `program_kegiatan`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `program_mbkm`
+-- Indeks untuk tabel `program_mbkm`
 --
 ALTER TABLE `program_mbkm`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `riwayat_alumni`
+-- Indeks untuk tabel `riwayat_alumni`
 --
 ALTER TABLE `riwayat_alumni`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `riwayat_jabatan`
+-- Indeks untuk tabel `riwayat_jabatan`
 --
 ALTER TABLE `riwayat_jabatan`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `riwayat_jabatan_dosen`
+-- Indeks untuk tabel `riwayat_jabatan_dosen`
 --
 ALTER TABLE `riwayat_jabatan_dosen`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `riwayat_jabatan_mentor`
+-- Indeks untuk tabel `riwayat_jabatan_mentor`
 --
 ALTER TABLE `riwayat_jabatan_mentor`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `riwayat_karya_ilmiah`
+-- Indeks untuk tabel `riwayat_karya_ilmiah`
 --
 ALTER TABLE `riwayat_karya_ilmiah`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `riwayat_karya_ilmiah_dosen`
+-- Indeks untuk tabel `riwayat_karya_ilmiah_dosen`
 --
 ALTER TABLE `riwayat_karya_ilmiah_dosen`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `riwayat_karya_ilmiah_mentor`
+-- Indeks untuk tabel `riwayat_karya_ilmiah_mentor`
 --
 ALTER TABLE `riwayat_karya_ilmiah_mentor`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `riwayat_kegiatan_mhsw`
+-- Indeks untuk tabel `riwayat_kegiatan_mhsw`
 --
 ALTER TABLE `riwayat_kegiatan_mhsw`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `riwayat_organisasi`
+-- Indeks untuk tabel `riwayat_organisasi`
 --
 ALTER TABLE `riwayat_organisasi`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `riwayat_organisasi_dosen`
+-- Indeks untuk tabel `riwayat_organisasi_dosen`
 --
 ALTER TABLE `riwayat_organisasi_dosen`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `riwayat_organisasi_mentor`
+-- Indeks untuk tabel `riwayat_organisasi_mentor`
 --
 ALTER TABLE `riwayat_organisasi_mentor`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `riwayat_pekerjaan`
+-- Indeks untuk tabel `riwayat_pekerjaan`
 --
 ALTER TABLE `riwayat_pekerjaan`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `riwayat_pekerjaan_dosen`
+-- Indeks untuk tabel `riwayat_pekerjaan_dosen`
 --
 ALTER TABLE `riwayat_pekerjaan_dosen`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `riwayat_pekerjaan_mentor`
+-- Indeks untuk tabel `riwayat_pekerjaan_mentor`
 --
 ALTER TABLE `riwayat_pekerjaan_mentor`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `riwayat_pendidikan`
+-- Indeks untuk tabel `riwayat_pendidikan`
 --
 ALTER TABLE `riwayat_pendidikan`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `riwayat_pendidikan_dosen`
+-- Indeks untuk tabel `riwayat_pendidikan_dosen`
 --
 ALTER TABLE `riwayat_pendidikan_dosen`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `riwayat_pendidikan_mentor`
+-- Indeks untuk tabel `riwayat_pendidikan_mentor`
 --
 ALTER TABLE `riwayat_pendidikan_mentor`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `riwayat_prestasi`
+-- Indeks untuk tabel `riwayat_prestasi`
 --
 ALTER TABLE `riwayat_prestasi`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `riwayat_prestasi_dosen`
+-- Indeks untuk tabel `riwayat_prestasi_dosen`
 --
 ALTER TABLE `riwayat_prestasi_dosen`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `riwayat_prestasi_mentor`
+-- Indeks untuk tabel `riwayat_prestasi_mentor`
 --
 ALTER TABLE `riwayat_prestasi_mentor`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `riwayat_seminar`
+-- Indeks untuk tabel `riwayat_seminar`
 --
 ALTER TABLE `riwayat_seminar`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `riwayat_seminar_dosen`
+-- Indeks untuk tabel `riwayat_seminar_dosen`
 --
 ALTER TABLE `riwayat_seminar_dosen`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `riwayat_seminar_mentor`
+-- Indeks untuk tabel `riwayat_seminar_mentor`
 --
 ALTER TABLE `riwayat_seminar_mentor`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `riwayat_wirausaha`
+-- Indeks untuk tabel `riwayat_wirausaha`
 --
 ALTER TABLE `riwayat_wirausaha`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `riwayat_wirausaha_dosen`
+-- Indeks untuk tabel `riwayat_wirausaha_dosen`
 --
 ALTER TABLE `riwayat_wirausaha_dosen`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `riwayat_wirausaha_mentor`
+-- Indeks untuk tabel `riwayat_wirausaha_mentor`
 --
 ALTER TABLE `riwayat_wirausaha_mentor`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `role_menu`
+-- Indeks untuk tabel `role_menu`
 --
 ALTER TABLE `role_menu`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `temp_mk_pertukaran`
+-- Indeks untuk tabel `temp_mk_pertukaran`
 --
 ALTER TABLE `temp_mk_pertukaran`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `users`
+-- Indeks untuk tabel `users`
 --
 ALTER TABLE `users`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `users_mhsw`
+-- Indeks untuk tabel `users_mhsw`
 --
 ALTER TABLE `users_mhsw`
   ADD PRIMARY KEY (`id`);
 
 --
--- AUTO_INCREMENT for dumped tables
+-- AUTO_INCREMENT untuk tabel yang dibuang
 --
 
 --
--- AUTO_INCREMENT for table `dosen`
+-- AUTO_INCREMENT untuk tabel `api_logs`
+--
+ALTER TABLE `api_logs`
+  MODIFY `id` int NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT untuk tabel `dosen`
 --
 ALTER TABLE `dosen`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=176;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=176;
 
 --
--- AUTO_INCREMENT for table `jadwal_kuliah_inbound`
+-- AUTO_INCREMENT untuk tabel `jadwal_kuliah_inbound`
 --
 ALTER TABLE `jadwal_kuliah_inbound`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT for table `kegiatan_mbkm_lain`
+-- AUTO_INCREMENT untuk tabel `kegiatan_mbkm_lain`
 --
 ALTER TABLE `kegiatan_mbkm_lain`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
--- AUTO_INCREMENT for table `konversi_matakuliah`
+-- AUTO_INCREMENT untuk tabel `konversi_matakuliah`
 --
 ALTER TABLE `konversi_matakuliah`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2632;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2632;
 
 --
--- AUTO_INCREMENT for table `konversi_mk_pertukaran`
+-- AUTO_INCREMENT untuk tabel `konversi_mk_pertukaran`
 --
 ALTER TABLE `konversi_mk_pertukaran`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT for table `level`
+-- AUTO_INCREMENT untuk tabel `level`
 --
 ALTER TABLE `level`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
--- AUTO_INCREMENT for table `logbook`
+-- AUTO_INCREMENT untuk tabel `logbook`
 --
 ALTER TABLE `logbook`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1034;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1034;
 
 --
--- AUTO_INCREMENT for table `logbook_inbound`
+-- AUTO_INCREMENT untuk tabel `logbook_inbound`
 --
 ALTER TABLE `logbook_inbound`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT for table `mahasiswa`
+-- AUTO_INCREMENT untuk tabel `mahasiswa`
 --
 ALTER TABLE `mahasiswa`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=718;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=718;
 
 --
--- AUTO_INCREMENT for table `mahasiswa_inbound`
+-- AUTO_INCREMENT untuk tabel `mahasiswa_inbound`
 --
 ALTER TABLE `mahasiswa_inbound`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT for table `matakuliah_pertukaran`
+-- AUTO_INCREMENT untuk tabel `matakuliah_pertukaran`
 --
 ALTER TABLE `matakuliah_pertukaran`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
--- AUTO_INCREMENT for table `mentor`
+-- AUTO_INCREMENT untuk tabel `mentor`
 --
 ALTER TABLE `mentor`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
 
 --
--- AUTO_INCREMENT for table `menu`
+-- AUTO_INCREMENT untuk tabel `menu`
 --
 ALTER TABLE `menu`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=36;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=36;
 
 --
--- AUTO_INCREMENT for table `mitra`
+-- AUTO_INCREMENT untuk tabel `mitra`
 --
 ALTER TABLE `mitra`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=82;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=82;
 
 --
--- AUTO_INCREMENT for table `mk_kegiatan`
+-- AUTO_INCREMENT untuk tabel `mk_kegiatan`
 --
 ALTER TABLE `mk_kegiatan`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=48;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=48;
 
 --
--- AUTO_INCREMENT for table `nilai_inbound`
+-- AUTO_INCREMENT untuk tabel `nilai_inbound`
 --
 ALTER TABLE `nilai_inbound`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT for table `nilai_kegiatan`
+-- AUTO_INCREMENT untuk tabel `nilai_kegiatan`
 --
 ALTER TABLE `nilai_kegiatan`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
 
 --
--- AUTO_INCREMENT for table `nilai_mk_pertukaran`
+-- AUTO_INCREMENT untuk tabel `nilai_mk_pertukaran`
 --
 ALTER TABLE `nilai_mk_pertukaran`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT for table `panduan`
+-- AUTO_INCREMENT untuk tabel `panduan`
 --
 ALTER TABLE `panduan`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
--- AUTO_INCREMENT for table `pendaftaran`
+-- AUTO_INCREMENT untuk tabel `pendaftaran`
 --
 ALTER TABLE `pendaftaran`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=999;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=999;
 
 --
--- AUTO_INCREMENT for table `pendaftaran_inbound`
+-- AUTO_INCREMENT untuk tabel `pendaftaran_inbound`
 --
 ALTER TABLE `pendaftaran_inbound`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT for table `pengumuman`
+-- AUTO_INCREMENT untuk tabel `pengumuman`
 --
 ALTER TABLE `pengumuman`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
--- AUTO_INCREMENT for table `persyaratan_inbound`
+-- AUTO_INCREMENT untuk tabel `persyaratan_inbound`
 --
 ALTER TABLE `persyaratan_inbound`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT for table `persyaratan_kegiatan`
+-- AUTO_INCREMENT untuk tabel `persyaratan_kegiatan`
 --
 ALTER TABLE `persyaratan_kegiatan`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=111;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=111;
 
 --
--- AUTO_INCREMENT for table `persyaratan_pendaftaran`
+-- AUTO_INCREMENT untuk tabel `persyaratan_pendaftaran`
 --
 ALTER TABLE `persyaratan_pendaftaran`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=473;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=473;
 
 --
--- AUTO_INCREMENT for table `program_kegiatan`
+-- AUTO_INCREMENT untuk tabel `program_kegiatan`
 --
 ALTER TABLE `program_kegiatan`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=110;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=110;
 
 --
--- AUTO_INCREMENT for table `program_mbkm`
+-- AUTO_INCREMENT untuk tabel `program_mbkm`
 --
 ALTER TABLE `program_mbkm`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
--- AUTO_INCREMENT for table `riwayat_alumni`
+-- AUTO_INCREMENT untuk tabel `riwayat_alumni`
 --
 ALTER TABLE `riwayat_alumni`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
--- AUTO_INCREMENT for table `riwayat_jabatan`
+-- AUTO_INCREMENT untuk tabel `riwayat_jabatan`
 --
 ALTER TABLE `riwayat_jabatan`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
--- AUTO_INCREMENT for table `riwayat_jabatan_dosen`
+-- AUTO_INCREMENT untuk tabel `riwayat_jabatan_dosen`
 --
 ALTER TABLE `riwayat_jabatan_dosen`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT for table `riwayat_jabatan_mentor`
+-- AUTO_INCREMENT untuk tabel `riwayat_jabatan_mentor`
 --
 ALTER TABLE `riwayat_jabatan_mentor`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT for table `riwayat_karya_ilmiah`
+-- AUTO_INCREMENT untuk tabel `riwayat_karya_ilmiah`
 --
 ALTER TABLE `riwayat_karya_ilmiah`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
--- AUTO_INCREMENT for table `riwayat_karya_ilmiah_dosen`
+-- AUTO_INCREMENT untuk tabel `riwayat_karya_ilmiah_dosen`
 --
 ALTER TABLE `riwayat_karya_ilmiah_dosen`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT for table `riwayat_karya_ilmiah_mentor`
+-- AUTO_INCREMENT untuk tabel `riwayat_karya_ilmiah_mentor`
 --
 ALTER TABLE `riwayat_karya_ilmiah_mentor`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT for table `riwayat_kegiatan_mhsw`
+-- AUTO_INCREMENT untuk tabel `riwayat_kegiatan_mhsw`
 --
 ALTER TABLE `riwayat_kegiatan_mhsw`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
--- AUTO_INCREMENT for table `riwayat_organisasi`
+-- AUTO_INCREMENT untuk tabel `riwayat_organisasi`
 --
 ALTER TABLE `riwayat_organisasi`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
 
 --
--- AUTO_INCREMENT for table `riwayat_organisasi_dosen`
+-- AUTO_INCREMENT untuk tabel `riwayat_organisasi_dosen`
 --
 ALTER TABLE `riwayat_organisasi_dosen`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT for table `riwayat_organisasi_mentor`
+-- AUTO_INCREMENT untuk tabel `riwayat_organisasi_mentor`
 --
 ALTER TABLE `riwayat_organisasi_mentor`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT for table `riwayat_pekerjaan`
+-- AUTO_INCREMENT untuk tabel `riwayat_pekerjaan`
 --
 ALTER TABLE `riwayat_pekerjaan`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 
 --
--- AUTO_INCREMENT for table `riwayat_pekerjaan_dosen`
+-- AUTO_INCREMENT untuk tabel `riwayat_pekerjaan_dosen`
 --
 ALTER TABLE `riwayat_pekerjaan_dosen`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT for table `riwayat_pekerjaan_mentor`
+-- AUTO_INCREMENT untuk tabel `riwayat_pekerjaan_mentor`
 --
 ALTER TABLE `riwayat_pekerjaan_mentor`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT for table `riwayat_pendidikan`
+-- AUTO_INCREMENT untuk tabel `riwayat_pendidikan`
 --
 ALTER TABLE `riwayat_pendidikan`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
--- AUTO_INCREMENT for table `riwayat_pendidikan_dosen`
+-- AUTO_INCREMENT untuk tabel `riwayat_pendidikan_dosen`
 --
 ALTER TABLE `riwayat_pendidikan_dosen`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
--- AUTO_INCREMENT for table `riwayat_pendidikan_mentor`
+-- AUTO_INCREMENT untuk tabel `riwayat_pendidikan_mentor`
 --
 ALTER TABLE `riwayat_pendidikan_mentor`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT for table `riwayat_prestasi`
+-- AUTO_INCREMENT untuk tabel `riwayat_prestasi`
 --
 ALTER TABLE `riwayat_prestasi`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
--- AUTO_INCREMENT for table `riwayat_prestasi_dosen`
+-- AUTO_INCREMENT untuk tabel `riwayat_prestasi_dosen`
 --
 ALTER TABLE `riwayat_prestasi_dosen`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT for table `riwayat_prestasi_mentor`
+-- AUTO_INCREMENT untuk tabel `riwayat_prestasi_mentor`
 --
 ALTER TABLE `riwayat_prestasi_mentor`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT for table `riwayat_seminar`
+-- AUTO_INCREMENT untuk tabel `riwayat_seminar`
 --
 ALTER TABLE `riwayat_seminar`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
--- AUTO_INCREMENT for table `riwayat_seminar_dosen`
+-- AUTO_INCREMENT untuk tabel `riwayat_seminar_dosen`
 --
 ALTER TABLE `riwayat_seminar_dosen`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT for table `riwayat_seminar_mentor`
+-- AUTO_INCREMENT untuk tabel `riwayat_seminar_mentor`
 --
 ALTER TABLE `riwayat_seminar_mentor`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT for table `riwayat_wirausaha`
+-- AUTO_INCREMENT untuk tabel `riwayat_wirausaha`
 --
 ALTER TABLE `riwayat_wirausaha`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
--- AUTO_INCREMENT for table `riwayat_wirausaha_dosen`
+-- AUTO_INCREMENT untuk tabel `riwayat_wirausaha_dosen`
 --
 ALTER TABLE `riwayat_wirausaha_dosen`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT for table `riwayat_wirausaha_mentor`
+-- AUTO_INCREMENT untuk tabel `riwayat_wirausaha_mentor`
 --
 ALTER TABLE `riwayat_wirausaha_mentor`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT for table `role_menu`
+-- AUTO_INCREMENT untuk tabel `role_menu`
 --
 ALTER TABLE `role_menu`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=38;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=38;
 
 --
--- AUTO_INCREMENT for table `temp_mk_pertukaran`
+-- AUTO_INCREMENT untuk tabel `temp_mk_pertukaran`
 --
 ALTER TABLE `temp_mk_pertukaran`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3059;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3059;
 
 --
--- AUTO_INCREMENT for table `users`
+-- AUTO_INCREMENT untuk tabel `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=277;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=277;
 
 --
--- AUTO_INCREMENT for table `users_mhsw`
+-- AUTO_INCREMENT untuk tabel `users_mhsw`
 --
 ALTER TABLE `users_mhsw`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=719;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=719;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
