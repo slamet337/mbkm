@@ -25,47 +25,43 @@ $config['jwt_audience'] = 'your_audience';
 $private_key_path = isset($_ENV['JWT_PRIVATE_KEY_PATH']) ? APPPATH . $_ENV['JWT_PRIVATE_KEY_PATH'] : APPPATH . 'config/key/private_key.pem';
 $public_key_path = isset($_ENV['JWT_PUBLIC_KEY_PATH']) ? APPPATH . $_ENV['JWT_PUBLIC_KEY_PATH'] : APPPATH . 'config/key/public_key.pem';
 
-$dir = dirname($private_key_path);
-if (!is_dir($dir)) {
-    if (!@mkdir($dir, 0700, true) && !is_dir($dir)) {
-        log_message('error', 'Failed to create directory: ' . $dir);
-    }
-}
-if (!is_dir($dir)) {
-    mkdir($dir, 0700, true);
-}
-
-// ✅ Hanya generate jika file belum ada
+// Cek ketersediaan file kunci
 if (!file_exists($private_key_path) || !file_exists($public_key_path)) {
-    if (@file_put_contents($private_key_path, base64_encode($secretKey)) === false) {
-        log_message('error', 'Failed to write private key to: ' . $private_key_path);
-    }
-    if (@file_put_contents($public_key_path, base64_encode($publicKey)) === false) {
-        log_message('error', 'Failed to write public key to: ' . $public_key_path);
-    }
-    $keypair = sodium_crypto_sign_keypair(); // Generate the keypair
-    $secretKey = sodium_crypto_sign_secretkey($keypair); // 64 bytes
-    $publicKey = sodium_crypto_sign_publickey($keypair); // 32 bytes
-
-    // Simpan kunci dalam format Base64
-    file_put_contents($private_key_path, base64_encode($secretKey));
-    file_put_contents($public_key_path, base64_encode($publicKey));
+    log_message('error', 'Key files not found. Please run `composer run key-generator` to generate the keys.');
+    response([
+        'status' => false,
+        'message' => 'Key files not found. Please run `composer run key-generator` to generate the keys.'
+    ], 500);
 }
 
 // ✅ Load kunci dari file
 if (file_exists($private_key_path)) {
-    // $config['private_key'] = base64_decode(file_get_contents($private_key_path));
     $config['private_key'] = file_get_contents($private_key_path);
 } else {
     log_message('error', 'Private key file not found: ' . $private_key_path);
+    response([
+        'status' => false,
+        'message' => 'Private key file not found: ' . $private_key_path
+    ], 500);
     $config['private_key'] = null;
 }
 
 if (file_exists($public_key_path)) {
-    // $config['public_key'] = base64_decode(file_get_contents($public_key_path));
     $config['public_key'] = file_get_contents($public_key_path);
     $config['kid'] = hash('sha256', base64_decode($config['public_key']));
 } else {
     log_message('error', 'Public key file not found: ' . $public_key_path);
+    response([
+        'status' => false,
+        'message' => 'Public key file not found: ' . $public_key_path
+    ], 500);
     $config['public_key'] = null;
+}
+
+function response($data, $status = 200)
+{
+    header('Content-Type: application/json');
+    http_response_code($status);
+    echo json_encode($data);
+    exit;
 }
