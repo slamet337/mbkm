@@ -157,6 +157,12 @@
                     </select>
                   </div>
                 </div>
+                <div class="col-md-6">
+                  <div class="mb-3">
+                    <label class="form-label">NPWP</label>
+                    <input class="form-control" type="text" name="npwp" placeholder="NPWP" value="<?= $profil->npwp ?>" >
+                  </div>
+                </div>
               </div>
               <div class="row">
                 <div class="col">
@@ -1344,6 +1350,7 @@
                           # code...
                           break;
                       }
+
                       $btn = '<button class="btn btn-primary" type="button" data-bs-toggle="modal" data-bs-target=".edit-modal-seminar-'.$show->id.'">Edit</button>
                       <div class="modal fade edit-modal-seminar-'.$show->id.'" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
                         <div class="modal-dialog modal-lg">
@@ -1697,6 +1704,58 @@
                           # code...
                           break;
                       }
+                      $PT1 = "";
+                      $PT2 = "";
+                      switch ($show->jml_pt) {
+                        case '>= 10 PT':
+                          $PT1 = "selected";
+                          break;
+                        case '< 10 PT':
+                          $PT2 = "selected";
+                          break;
+                        default:
+                          # code...
+                          break;
+                      }
+                      $Negara1 = "";
+                      $Negara2 = "";
+                      switch ($show->jml_negara) {
+                        case '>= 10 Negara':
+                          $Negara1 = "selected";
+                          break;
+                        case '< 10 Negara':
+                          $Negara2 = "selected";
+                          break;
+                        default:
+                          # code...
+                          break;
+                      }
+                      $kelompok = "";
+                      $individu = "";
+                      switch ($show->jenis_peserta) {
+                        case 'Kelompok':
+                          $kelompok = "selected";
+                          break;
+                        case 'Individu':
+                          $individu = "selected";
+                          break;
+                        default:
+                          # code...
+                          break;
+                      }
+                      $luring = "";
+                      $daring = "";
+                      switch ($show->m_pelaksana) {
+                        case 'Luring':
+                          $luring = "selected";
+                          break;
+                        case 'Daring':
+                          $daring = "selected";
+                          break;
+                        default:
+                          # code...
+                          break;
+                      }
                       $btn = '<button class="btn btn-primary" type="button" data-bs-toggle="modal" data-bs-target=".edit-modal-prestasi-'.$show->id.'">Edit</button>
                       <div class="modal fade edit-modal-prestasi-'.$show->id.'" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
                         <div class="modal-dialog modal-lg">
@@ -1753,8 +1812,118 @@
                                 <div class="row">
                                   <div class="col-md-6">
                                     <div class="mb-3 mt-3">
+                                      <label class="form-label">Peringkat</label>
+                                      <input class="form-control" type="number" name="peringkat" placeholder="peringkat" value="'.$show->peringkat.'">
+                                    </div>
+                                  </div>
+                                  <div class="col-md-6">
+                                    <div class="mb-3 mt-3">
                                       <label class="form-label">Dana yang diterima</label>
-                                      <input class="form-control" type="number" name="dana_diterima" placeholder="Dana yang diterima" value="'.$show->dana_diterima.'">
+                                        <input class="form-control" type="number" name="dana_diterima" placeholder="Dana yang diterima" value="'.$show->dana_diterima.'">
+                                    </div>
+                                  </div>
+                                </div>
+                                <div class="row">
+                                  <div class="col-md-6">
+                                    <div class="mb-3 mt-3">
+                                      <label class="form-label">Jumlah Negara</label>
+                                      <select name="jml_negara" class="form-select">
+                                        <option label="" value="">- Pilih Jumlah Negara -</option>
+                                        <option value=">= 10 Negara" '. $Negara1 .'>>= 10 Negara</option>
+                                        <option value="< 10 Negara" '. $Negara2 .'>< 10 Negara</option>
+                                      </select>
+                                    </div>
+                                  </div>
+                                  <div class="col-md-6">
+                                    <div class="mb-3 mt-3">
+                                      <label class="form-label">Jumlah PT</label>
+                                      <select name="jml_pt" class="form-select">
+                                        <option label="" value="">- Pilih Jumlah PT -</option>
+                                        <option value=">= 10 PT" '. $PT1 .'> >= 10 PT</option>
+                                        <option value="< 10 PT" '. $PT2 .'>< 10 PT</option>
+                                      </select>
+                                    </div>
+                                  </div>
+                                </div>
+                                <div class="row">                       
+                                <div class="col-md-6">
+                                  <div class="mb-3 mt-3">
+                                      <label class="form-label">Jenis Peserta</label>
+                                      <select name="tingkat_kegiatan" class="form-select">
+                                        <option label="" value="">- Pilih Tingkat Kegiatan -</option>
+                                        <option value="Individu" '.$individu.'>Individu</option>
+                                        <option value="Kelompok" '.$kelompok.'>Kelompok</option>
+                                      </select>
+                                  </div>
+                                  </div>
+                                  <div class="col-md-6">
+                                    <div class="mb-3 mt-3">
+                                      <label class="form-label">Nomor Sertifikat</label>
+                                      <input class="form-control" type="text" name="nomor_sertifikat" placeholder="Nomor Sertifikat" value="'.$show->nomor_sertifikat.'">
+                                    </div>
+                                  </div>
+                                </div>
+                                <div class="row">                       
+                                  <div class="col-md-6">
+                                    <div class="mb-3 mt-3">
+                                        <label class="form-label">Modul Pelaksana</label>
+                                          <select name="tingkat_kegiatan" class="form-select">
+                                            <option label="" value="">- Pilih Pelaksana -</option>
+                                            <option value="Luring" '.$luring.'>Luring</option>
+                                            <option value="Daring" '.$daring.'>Daring</option>
+                                          </select>
+                                      </div>
+                                  </div>
+                                  <div class="col-md-6">
+                                    <div class="mb-3 mt-3">
+                                      <label class="form-label">Nomor SK</label>
+                                      <input class="form-control" type="text" name="nomor_sk" placeholder="Nomor SK" value="'.$show->nomor_sk.'">
+                                    </div>
+                                  </div>
+                                </div>
+                                <div class="row">
+                                  <div class="col-md-6">
+                                    <div class="mb-3 mt-3">
+                                      <label class="form-label">Tanggal Mulai</label>
+                                      <input class="datepicker-here form-control digits" name="tanggal_mulai" type="text" data-language="id" value="'.$show->tanggal_mulai.'">
+                                    </div>
+                                  </div>
+                                  <div class="col-md-6">
+                                    <div class="mb-3 mt-3">
+                                      <label class="form-label">Tanggal Selesai</label>
+                                      <input class="datepicker-here form-control digits" name="tanggal_selesai" type="text" data-language="id" value="'.$show->tanggal_selesai.'">
+                                    </div>
+                                  </div>
+                                </div>
+                                <div class="row">
+                                  <div class="col-md-6">
+                                    <div class="mb-3 mt-3">
+                                      <label class="form-label">Upload Sertifikat</label>
+                                      <input type="file" name="sertifikat" class="form-control" accept=".pdf">
+                                      <i>* Kosongkan jika tidak ada perubahan</i>
+                                    </div>
+                                  </div>
+                                  <div class="col-md-6">
+                                    <div class="mb-3 mt-3">
+                                      <label class="form-label">Upload Foto Kegiatan</label>
+                                      <input type="file" name="foto" class="form-control" accept=".jpg, .jpeg, .png">
+                                      <i>* Kosongkan jika tidak ada perubahan</i>
+                                    </div>
+                                  </div>
+                                </div>
+                                <div class="row">
+                                  <div class="col-md-6">
+                                    <div class="mb-3 mt-3">
+                                      <label class="form-label">Upload Link</label>
+                                      <input type="file" name="link" class="form-control" accept=".jpg, .jpeg, .png">
+                                      <i>* Kosongkan jika tidak ada perubahan</i>
+                                    </div>
+                                  </div>
+                                  <div class="col-md-6">
+                                    <div class="mb-3 mt-3">
+                                      <label class="form-label">Upload SK</label>
+                                      <input type="file" name="sk" class="form-control" accept=".pdf">
+                                      <i>* Kosongkan jika tidak ada perubahan</i>
                                     </div>
                                   </div>
                                 </div>
@@ -1766,7 +1935,7 @@
                                     </div>
                                   </div>
                                 </div>
-                                <button class="btn btn-primary" type="submit">Ubah Prestasi</button>
+                                <button class="btn btn-primary" type="submit">Ubah Prestasi    iiiiii</button>
                               </form>
                             </div>
                           </div>

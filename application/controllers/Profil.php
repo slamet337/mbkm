@@ -26,6 +26,10 @@
       $data['organisasi'] = $this->profil_model->get_organisasi($this->session->id_mhsw)->result();
       $data['mbkm'] = $this->profil_model->get_mbkm($this->session->id_mhsw)->result();
       $data['mbkm_luar'] = $this->profil_model->get_mbkm_luar($this->session->id_mhsw)->result();
+      // Deteksi ulang tahun
+      
+
+
       $this->load->view('main/users/index_menu', $data);
     }
 
@@ -68,6 +72,7 @@
       $this->form_validation->set_rules('agama', 'Agama', 'required');
       $this->form_validation->set_rules('status_pernikahan', 'Status Pernikahan', 'required');
       $this->form_validation->set_rules('gol_darah', 'Golongan Darah', 'required');
+      // $this->form_validation->set_rules('npwp', 'NPWP 16 Digit', 'required');
       
       $this->form_validation->set_message('required', '{field} harus terisi.');
 
@@ -86,6 +91,12 @@
         $data['organisasi'] = $this->profil_model->get_organisasi($this->session->id_mhsw)->result();
         $data['mbkm'] = $this->profil_model->get_mbkm($this->session->id_mhsw)->result();
         $data['mbkm_luar'] = $this->profil_model->get_mbkm_luar($this->session->id_mhsw)->result();
+        
+        $tanggal_lahir = $data['profil']->tanggal_lahir;
+        $hari_ini = date('dd-mm-yyyy');
+          if (date('dd-mm-yyyy', strtotime($tanggal_lahir)) == $hari_ini) {
+          $this->session->set_flashdata('ulang_tahun', $data['profil']->nama);
+          }
         $this->load->view('main/users/index_menu', $data);
       } else {
         $tanggal_lahir = explode("/",$this->input->post('tanggal_lahir'));
@@ -103,17 +114,7 @@
           'agama' => $this->input->post('agama'),
           'status_pernikahan' => $this->input->post('status_pernikahan'),
           'gol_darah' => $this->input->post('gol_darah'),
-          //tambahan///
-          // 'peringkat' => $this->input->post('peringkat'),
-          // 'jml_negara' => $this->input->post('jml_negara'),
-          // 'jml_pt' => $this->input->post('jml_pt'),
-          // 'jenis_peserta' => $this->input->post('jenis_peserta'),
-          // 'nomor_sertifikat' => $this->input->post('nomor_sertifikat'),
-          // 'm_pelakasana' => $this->input->post('m_pelakasana'),
-          // 'nomor_sk' => $this->input->post('nomor_sk'),
-          // 'tanggal_mulai' => $this->input->post('tanggal_mulai'),
-          // 'tanggal_selesai' => $this->input->post('tanggal_selesai'),
-          //tinggal upload gambar
+          'npwp' => $this->input->post('npwp'),
         );
         
         if ($this->profil_model->put($data, $id)) {

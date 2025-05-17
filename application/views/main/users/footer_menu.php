@@ -1078,4 +1078,31 @@
   </script>
   <!-- login js-->
   <!-- Plugin used-->
+   <!--ini juga-->
+  <?php if ($this->session->flashdata('ulang_tahun')): ?>
+  <!-- SweetAlert & Confetti CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
+
+  <script>
+    // Tampilkan Confetti
+    confetti({
+      particleCount: 150,
+      spread: 100,
+      origin: { y: 0.6 }
+    });
+
+    // Tampilkan Popup
+    Swal.fire({
+      title: '🎉 Selamat Ulang Tahun!',
+      text: 'Halo <?= $this->session->flashdata('ulang_tahun'); ?>, semoga selalu sehat dan sukses!',
+      icon: 'success',
+      confirmButtonText: 'Terima kasih!',
+      timer: 6000,
+      timerProgressBar: true
+    });
+  </script>
+<?php endif; ?>
+
+
 </body>

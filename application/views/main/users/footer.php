@@ -26,6 +26,9 @@
   <script src="<?= base_url('assets/users/js/vendor/intro.min.js'); ?>"></script>
   <script src="<?= base_url('assets/users/js/vendor/select2.full.min.js'); ?>"></script>
   <script src="<?= base_url('assets/users/js/vendor/plyr.min.js'); ?>"></script>
+    <!--////tambahan///-->
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
+
   <!-- Vendor Scripts End -->
 
   <!-- Template Base Scripts Start -->
@@ -81,4 +84,5 @@
       $("#nim").val(`${kdprodi}`);
     }
   </script>
+  
 </body>

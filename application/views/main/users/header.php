@@ -44,6 +44,8 @@
 
     <link rel="stylesheet" href="<?= base_url('assets/users/css/main.css'); ?>" />
     <script src="<?= base_url('assets/users/js/base/loader.js'); ?>"></script>
+    <!--ini satu-->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   </head>
 
   <body>
@@ -58,6 +60,7 @@
             </a>
           </div>
           <!-- Logo End -->
+          
 
           <!-- Menu Start -->
           <div class="menu-container flex-grow-1">
