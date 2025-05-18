@@ -2,7 +2,7 @@
 use Firebase\JWT\JWT;
 use Firebase\JWT\Key;
 
-class AuthMiddleware
+class AuthChecker
 {
     public function checkJWT()
     {

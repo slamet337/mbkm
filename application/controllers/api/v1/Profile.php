@@ -20,7 +20,7 @@ class Profile extends RestController {
 
     public function index_get()
     {
-        switch ($this->user->level) {
+        switch ($this->user['level']) {
             case 'admin':
                 $this->response([
                     'success' => true,
@@ -33,7 +33,7 @@ class Profile extends RestController {
                 $this->response([
                     'success' => true,
                     'message' => 'Profile mahasiswa',
-                    'data' => $this->m_profile->get_profil_one($this->user->id_mhsw)->row(),
+                    'data' => $this->m_profile->get_profil_one($this->user['id_mhsw'])->row(),
                 ], RestController::HTTP_OK);
                 break;
             case 'alumni':
@@ -41,7 +41,7 @@ class Profile extends RestController {
                 $this->response([
                     'success' => true,
                     'message' => 'Profile alumni',
-                    'data' => $this->m_profile->get_profil_one($this->user->id_mhsw)->row(),
+                    'data' => $this->m_profile->get_profil_one($this->user['id_mhsw'])->row(),
                 ], RestController::HTTP_OK);
                 break;
             case 'inbound':
@@ -49,7 +49,7 @@ class Profile extends RestController {
                 $this->response([
                     'success' => true,
                     'message' => 'Profile inbound',
-                    'data' => $this->m_profile->get_profil_inbound_one($this->user->id_mhsw)->row(),
+                    'data' => $this->m_profile->get_profil_inbound_one($this->user['id_mhsw'])->row(),
                 ], RestController::HTTP_OK);
                 break;
             case 'prodi':
@@ -64,7 +64,7 @@ class Profile extends RestController {
                 $this->response([
                     'success' => true,
                     'message' => 'Profile mitra',
-                    'data' => $this->m_profile->get_profil_mitra_one($this->user->id_mitra)->row(),
+                    'data' => $this->m_profile->get_profil_mitra_one($this->user['id_mitra'])->row(),
                 ], RestController::HTTP_OK);
                 break;
             case 'dosen':
@@ -72,7 +72,7 @@ class Profile extends RestController {
                 $this->response([
                     'success' => true,
                     'message' => 'Profile dosen',
-                    'data' => $this->m_profile->get_profil_dosen_one($this->user->id)->row(),
+                    'data' => $this->m_profile->get_profil_dosen_one($this->user['id'])->row(),
                 ], RestController::HTTP_OK);
                 break;
             default:
