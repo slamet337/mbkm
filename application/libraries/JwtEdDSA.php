@@ -8,6 +8,7 @@ class JwtEdDSA
     private $alg = 'EdDSA';
     private $jwt_expiration = 3600;
     private $kid;
+    public $data = null;
 
     public function __construct()
     {
@@ -59,34 +60,45 @@ class JwtEdDSA
 
     public function verifyToken(string $jwt): array
     {
-        $segments = explode('.', $jwt);
-        if (count($segments) !== 3) {
-            throw new Exception('Token format is invalid');
+        try {
+            $segments = explode('.', $jwt);
+            if (count($segments) !== 3) {
+                throw new Exception('Token format is invalid');
+            }
+
+            list($encodedHeader, $encodedPayload, $encodedSignature) = $segments;
+            $signingInput = $encodedHeader . '.' . $encodedPayload;
+            $signature = $this->base64UrlDecode($encodedSignature);
+
+            if (!sodium_crypto_sign_verify_detached($signature, $signingInput, $this->publicKey)) {
+                throw new Exception('Signature verification failed');
+            }
+
+            $payload = json_decode($this->base64UrlDecode($encodedPayload), true);
+
+            if (empty($payload)) {
+                throw new Exception('Invalid payload data');
+            }
+
+            if (!isset($payload['exp'])) {
+                throw new Exception('Expiration (exp) not set in token');
+            }
+
+            if ($payload['exp'] < time()) {
+                throw new Exception('Token has expired');
+            }
+
+            return $payload;
+        } catch (Exception $e) {
+            header('Content-Type: application/json');
+            http_response_code(401);
+            echo json_encode([
+                'success' => false,
+                'message' => 'Unauthorized access',
+                'error' => $e->getMessage()
+            ]);
+            exit;
         }
-
-        list($encodedHeader, $encodedPayload, $encodedSignature) = $segments;
-        $signingInput = $encodedHeader . '.' . $encodedPayload;
-        $signature = $this->base64UrlDecode($encodedSignature);
-
-        if (!sodium_crypto_sign_verify_detached($signature, $signingInput, $this->publicKey)) {
-            throw new Exception('Signature verification failed');
-        }
-
-        $payload = json_decode($this->base64UrlDecode($encodedPayload), true);
-
-        if (empty($payload)) {
-            throw new Exception('Invalid payload data');
-        }
-
-        if (!isset($payload['exp'])) {
-            throw new Exception('Expiration (exp) not set in token');
-        }
-
-        if ($payload['exp'] < time()) {
-            throw new Exception('Token has expired');
-        }
-
-        return $payload;
     }
 
     private function base64UrlEncode(string $data): string
@@ -128,5 +140,17 @@ class JwtEdDSA
         }
 
         return null;
+    }
+
+    public function data() {
+        $token = $this->getToken();
+        if (!$token) {
+            return null;
+        }
+        try {
+            return $this->verifyToken($token);
+        } catch (Exception $e) {
+            return null;
+        }
     }
 }
